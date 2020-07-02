@@ -20,16 +20,21 @@ Il est ensuite nécessaire d'ajouter dans le fichier localconfig.ini.php de Lizm
 [altiProfil]
 ;altiProfileProvider= database ou ign
 
-altisource= Source des données ;ex. SCHOM LITTO3D®
+;altisource = ex. SCHOM LITTO3D®
+altisource= Source des données 
 
 ;si cas IGN
+altiProfileProvider= ign
 ignServiceKey=votre clé IGN
 ignServiceUrl=https://wxs.ign.fr/
 
 ;si cas database
+altiProfileProvider= database
 altiProfileProvider=database
 altiProfileTable=reunion_mnt
 srid=2975
+;; profilUnit = PERCENT or DEGREES - choix de l'unité de calcul du profil
+profilUnit= PERCENT
 ```
 
 Ce bloc permet de définir la source de vos données. Si vous souhaitez vous connecter au web service de l'IGN (altiProfileProvider=ign) ou a des données provenant de votre base (altiProfileProvider=database). En fonction de la source de données des options complémentaires doivent être précisées.
