@@ -305,6 +305,7 @@ function initAltiProfil() {
         altiProfilLayer.setVisibility(false);
         profilClick.deactivate();
     }
+    $('#altiProfil-stop').click(function(){$('#button-altiProfil').click();});
 
     lizMap.events.on({
         // Dock opened
