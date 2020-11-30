@@ -105,17 +105,17 @@ Class GetAltiServicesFromDB {
                 ), linemesure AS(
                 -- Add a mesure dimension to extract steps
                 SELECT
-                    ST_AddMeasure(line.geom, 0, ST_Length(line.geom)) as linem,
+                    ST_AddMeasure(line.geom, 0, ST_Length(line.geom, false)) as linem,
                     generate_series(
                         0,
-                        ST_Length(line.geom)::int,
+                        ST_Length(line.geom, false)::int,
                         CASE
-                            WHEN ST_Length(line.geom)::int < 1000 THEN 5
+                            WHEN ST_Length(line.geom, false)::int < 1000 THEN 5
                             ELSE 20
                         END
                     ) as i,
                     CASE
-                        WHEN ST_Length(line.geom)::int < 1000 THEN 5
+                        WHEN ST_Length(line.geom, false)::int < 1000 THEN 5
                         ELSE 20
                     END as resolution
                 FROM line),
@@ -144,7 +144,7 @@ Class GetAltiServicesFromDB {
                     FROM line3D
                 )
             -- Build 3D line from 3D points
-            SELECT ST_distance(origin, geom) AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz',
+            SELECT ST_distance(origin, geom, false) AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz',
             $this->AltiProfileTable,
             $p1Lon, $p1Lat,
             $this->Srid,
