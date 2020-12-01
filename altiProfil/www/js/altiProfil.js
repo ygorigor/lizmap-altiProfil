@@ -88,7 +88,21 @@ function getProfil(p1,p2){
         'project': lizUrls.params.project,
         'sampling' : Math.round(p1.distanceTo(p2))/2 /* Seulement utilisé pour l'IGN => Nombre de points constituant le graphique */
     }
-
+    function toDegreesMinutesAndSeconds(coordinate) {
+        var absolute = Math.abs(coordinate);
+        var degrees = Math.floor(absolute);
+        var minutesNotTruncated = (absolute - degrees) * 60;
+        var minutes = Math.floor(minutesNotTruncated);
+        var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+    return degrees + "°" + minutes + "′" + seconds+"″";
+    }
+    function convertDMS(lat, lng) {
+        var latitude = toDegreesMinutesAndSeconds(lat);
+        var latitudeCardinal = lat >= 0 ? "N" : "S";
+        var longitude = toDegreesMinutesAndSeconds(lng);
+        var longitudeCardinal = lng >= 0 ? "E" : "W";
+    return longitude + longitudeCardinal + " / " + latitude + latitudeCardinal;
+    }
     getProfilJsonResponse(qParams, function(data){
         var _x = data[0]['x'];
         var _y = data[0]['y'];
@@ -115,7 +129,8 @@ function getProfil(p1,p2){
                 yref:'paper',
                 y: 1.16,
                 showarrow: false,
-                text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
+                //text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
+                text: `P1 (${convertDMS(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${convertDMS(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})`
             },{
                 font: {
                     size: 10
