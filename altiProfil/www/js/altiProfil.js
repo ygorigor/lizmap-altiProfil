@@ -150,11 +150,11 @@ function getProfil(p1,p2){
         //add extra info if datasource from DB
         if ( ALTI_PROVIDER == "database"){
             var _resolution = data[0]['resolution'];
-            var _slope = data[0]['slope'];
-            _slope = $.parseJSON(_slope);
+           // var _slope = data[0]['slope'];
+           // _slope = $.parseJSON(_slope);
 
             layout['title'] = '<b>Profil ('+ LOCALES_ALTI_RESOLUTION +' ' +_resolution+ 'm)';
-            layout['annotations'].push(
+            /*layout['annotations'].push(
                 {
                     font: {
                         size: 11
@@ -166,7 +166,7 @@ function getProfil(p1,p2){
                     showarrow:false,
                     text: `${LOCALES_ALTI_SLOPE} ${LOCALES_ALTI_UNIT}  min :  ${_slope.min_slope} | max : ${_slope.max_slope} | ${LOCALES_ALTI_MEAN} : ${_slope.mean_slope}`
                 }
-            )
+            )*/
         }
 
         var profilLine = {

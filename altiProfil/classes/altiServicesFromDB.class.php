@@ -57,13 +57,10 @@ Class GetAltiServicesFromDB {
     private function queryAlti($lon, $lat) {
 
         $sql = sprintf('
-            SELECT ST_Value(
-                %1$s.rast,
-                ST_Transform(ST_SetSRID(ST_MakePoint(%2$f,%3$f),4326),%4$s)
-            ) as z
-            FROM %1$s
+            SELECT altitude as z
+            FROM %1$s a
             WHERE ST_Intersects(
-                %1$s.rast,
+                a.geom,
                 ST_Transform(ST_SetSRID(ST_MakePoint(%2$f,%3$f),4326),%4$s)
 
         )',
@@ -124,9 +121,9 @@ Class GetAltiServicesFromDB {
                 ),
                 cells AS (
                 -- Get DEM elevation for each
-                    SELECT p.geom AS geom, ST_Value(%1$s.rast, 1, p.geom) AS val, resolution
-                    FROM %1$s, points2d p
-                    WHERE ST_Intersects(%1$s.rast, p.geom)
+                    SELECT p.geom AS geom, altitude AS val, resolution
+                    FROM %1$s a, points2d p
+                    WHERE ST_Intersects(a.geom, p.geom)
                 ),
                 -- Instantiate 3D points
                 points3d AS (
@@ -136,7 +133,7 @@ Class GetAltiServicesFromDB {
                             ) AS geom, resolution FROM cells
                 ),
                 line3D AS(
-                    SELECT ST_MakeLine(geom)as geom, MAx(resolution) as resolution FROM points3d
+                    SELECT ST_MakeLine(geom)as geom, Max(resolution) as resolution FROM points3d
                 ),
                 xz AS(
                     SELECT (ST_DumpPoints(geom)).geom AS geom,
@@ -163,7 +160,7 @@ Class GetAltiServicesFromDB {
             $resolution = $row->resolution;
         }
         //slope
-        $sql = sprintf('
+     /*   $sql = sprintf('
             WITH
                 line AS(
                     -- Make the line from the input coordinates
@@ -195,12 +192,12 @@ Class GetAltiServicesFromDB {
             $this->Srid,
             $p2Lon, $p2Lat,
             $this->profilUnit
-        );
+        );*/
         $cnx = jDb::getConnection('altiProfil');
         $qResult = $cnx->query($sql);
-        $slope = json_encode(
+     /*   $slope = json_encode(
                     $qResult->fetch(PDO::FETCH_ASSOC)
-                );
+                );*/
         $data = [ [
             "x" => $x,
             "y" => $y,
@@ -208,7 +205,7 @@ Class GetAltiServicesFromDB {
             "srid" => $this->Srid,
             "resolution" => $resolution,
             "altisource" => $this->Altisource,
-            "slope" => $slope
+          /*  "slope" => $slope */
          ] ];
 
         return json_encode($data);
