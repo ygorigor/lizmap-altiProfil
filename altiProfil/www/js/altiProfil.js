@@ -193,9 +193,9 @@ function getProfil(p1,p2){
               width: 700,
               scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
             },
-            modeBarButtonsToRemove: ['zoom2d', 'pan2d','select2d','lasso2d','resetScale2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d',
+           /* modeBarButtonsToRemove: ['zoom2d', 'pan2d','select2d','lasso2d','resetScale2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d',
                 'resetScale2d', 'hoverClosestGl2d', 'hoverClosestPie', 'toggleHover', 'resetViews',
-                'sendDataToCloud', 'toggleSpikelines', 'resetViewMapbox', 'hoverClosestCartesian', 'hoverCompareCartesian']
+                'sendDataToCloud', 'toggleSpikelines', 'resetViewMapbox', 'hoverClosestCartesian', 'hoverCompareCartesian']*/
           };
         Plotly.newPlot('profil-chart-container', data, layout, config);
         $('#altiProfil .menu-content #profil-chart .spinner').hide();
