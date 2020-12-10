@@ -99,32 +99,35 @@ Class GetAltiServicesFromDB {
                             ST_Transform(ST_SetSRID(ST_MakePoint(%5$f, %6$f),4326), %4$s)
                         )
                     AS geom
-                ), linemesure AS(
-                -- Add a mesure dimension to extract steps
-                SELECT
+                ), 
+                linemesure AS(
+                    -- Add a mesure dimension to extract steps
+                    SELECT
                     ST_AddMeasure(line.geom, 0, ST_Length(line.geom, false)) as linem,
-                    generate_series(
-                        0,
+                        generate_series(
+                            0,
                         ST_Length(line.geom, false)::int,
-                        CASE
+                            CASE
                             WHEN ST_Length(line.geom, false)::int < 1000 THEN 5
-                            ELSE 20
-                        END
-                    ) as i,
-                    CASE
+                                ELSE 20
+                            END
+                        ) as i,
+                        CASE
                         WHEN ST_Length(line.geom, false)::int < 1000 THEN 5
-                        ELSE 20
-                    END as resolution
-                FROM line),
+                            ELSE 20
+                        END as resolution
+                    FROM line
+                ), 
                 points2d AS (
                     SELECT ST_GeometryN(ST_LocateAlong(linem, i), 1) AS geom, resolution FROM linemesure
                 ),
                 cells AS (
-                -- Get DEM elevation for each
+                    -- Get DEM elevation for each
                     SELECT p.geom AS geom, altitude AS val, resolution
                     FROM %1$s a, points2d p
                     WHERE ST_Intersects(a.geom, p.geom)
-                ),
+                        resolution
+                ),           
                 -- Instantiate 3D points
                 points3d AS (
                     SELECT ST_SetSRID(
@@ -133,7 +136,7 @@ Class GetAltiServicesFromDB {
                             ) AS geom, resolution FROM cells
                 ),
                 line3D AS(
-                    SELECT ST_MakeLine(geom)as geom, Max(resolution) as resolution FROM points3d
+                    SELECT ST_MakeLine(geom)as geom, MAX(resolution) as resolution FROM points3d
                 ),
                 xz AS(
                     SELECT (ST_DumpPoints(geom)).geom AS geom,
@@ -145,7 +148,8 @@ Class GetAltiServicesFromDB {
             $this->AltiProfileTable,
             $p1Lon, $p1Lat,
             $this->Srid,
-            $p2Lon, $p2Lat
+            $p2Lon, $p2Lat,
+            $this->profilUnit
         );
         $cnx = jDb::getConnection('altiProfil');
         $qResult = $cnx->query($sql);
@@ -156,7 +160,7 @@ Class GetAltiServicesFromDB {
         while($row=$qResult->fetch())  {
             $x[] = $row->x;
             $y[] = $row->y;
-            $customdata[] = [$row->lon, $row->lat];
+            $customdata[] = [["lon" => $row->lon, "lat" => $row->lat]];
             $resolution = $row->resolution;
         }
         //slope
