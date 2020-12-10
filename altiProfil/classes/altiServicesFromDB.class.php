@@ -126,8 +126,7 @@ Class GetAltiServicesFromDB {
                     SELECT p.geom AS geom, altitude AS val, resolution
                     FROM %1$s a, points2d p
                     WHERE ST_Intersects(a.geom, p.geom)
-                        resolution
-                ),           
+                ),
                 -- Instantiate 3D points
                 points3d AS (
                     SELECT ST_SetSRID(
