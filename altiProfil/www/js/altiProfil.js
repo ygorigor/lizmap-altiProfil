@@ -178,7 +178,7 @@ function getProfil(p1,p2){
               color: 'rgb(128, 0, 128)',
               width: 1
             }
-            ,hovertemplate: '<b>Altitude</b>: %{y}' +
+            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}' +
             '<br /><b>lon</b> : %{customdata[0].lon:.2f} / <b>lat</b> : %{customdata[0].lat:.2f}</b>'+
             '<extra></extra>'
           };

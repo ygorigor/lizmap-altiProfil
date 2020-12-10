@@ -7,6 +7,7 @@
     var LOCALES_ALTI_ELEVATION = "{@altiProfil~altiProfil.alti.elevation@}";
     var LOCALES_ALTI_RESOLUTION = "{@altiProfil~altiProfil.alti.resolution@}";
     var LOCALES_ALTI_SLOPE = "{@altiProfil~altiProfil.alti.slope@}";
+    var LOCALES_ALTI_ALTITUDE = "{@altiProfil~altiProfil.alti.altitude@}";
     
     var ALTI_PROVIDER = "{$altiProvider}";
     {if $altiProvider == "database"}      
