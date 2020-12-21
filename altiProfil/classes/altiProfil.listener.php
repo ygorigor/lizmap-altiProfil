@@ -30,7 +30,7 @@ class altiProfilListener extends jEventListener{
             jLocale::get('altiProfil~altiProfil.dock.title'),
             $tpl->fetch('altiProfil~altiProfil_Dock'),
             5,
-            '<span class="icon-altiProfil"></span>'
+            //'<span%20class="icon-altiProfil"></span>'
         );
         return $dockable;
     }
