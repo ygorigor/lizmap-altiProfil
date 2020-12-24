@@ -30,6 +30,7 @@
     width: 80px;
     height: 80px;
 }
+
 #dock-content #altiProfil .menu-content #profil-chart .spinner{
     content: " ";
     display: block;
@@ -40,7 +41,20 @@
     border: 6px solid #fff;
     border-color: #474747 transparent #474747 transparent;
     animation: lds-dual-ring 1.2s linear infinite;
-  }
+}
+
+#mini-dock-content #altiProfil .menu-content #profil-chart .spinner{
+    content: " ";
+    display: block;
+    width: 34px;
+    height: 34px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #474747 transparent #474747 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
 #mini-dock .altiProfil h3 .icon {
     background-image: url(getfile?targetmodule=altiProfil&file=img/noun_altitude.png);
     background-position: 0 0;
