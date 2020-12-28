@@ -223,7 +223,7 @@ function getProfil(p1,p2){
         $('#altiProfil .menu-content #profil-chart .spinner').hide();
         var myPlot = document.getElementById('profil-chart-container');
 
-        myPlot.on('plotly_click', function(data){            
+        myPlot.on('plotly_click', function(data){
             p = data.points[0].customdata[0];
             var fromProjection = new OpenLayers.Projection('EPSG:'+_srs);
             var toProjection = new OpenLayers.Projection(lizMap.map.projection.projCode);
@@ -340,6 +340,7 @@ function initAltiProfil() {
                 ctrl.activate();
             }
         });
+        $('#altiProfil .menu-content #profil-chart').hide();
         $('#altiProfil .menu-content #profil-chart-container').empty();
         $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
         $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
