@@ -29,10 +29,10 @@ function getAlti(lon,lat, numFeat){
         var convertedPoint = new OpenLayers.LonLat(lon, lat);
         convertedPoint.transform(fromProjection, toProjection);
         lon = convertedPoint.lon;
-        lat = convertedPoint.lat;    }
+        lat = convertedPoint.lat;}
 
     var qParams = {
-        'lon': lon,
+        'lon':lon,
         'lat':lat,
         'srs': lizMap.map.projection.projCode,
         'repository': lizUrls.params.repository,
@@ -40,8 +40,27 @@ function getAlti(lon,lat, numFeat){
     }
     getAltiJsonResponse(qParams, function(data){
         var alt = data['elevations'][0]['z'];
-        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt );
+        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt ).append(' m');
     });
+    function toDegreesMinutesAndSeconds(coordinate) {
+        var absolute = Math.abs(coordinate);
+        var degrees = Math.floor(absolute);
+        var minutesNotTruncated = (absolute - degrees) * 60;
+        var minutes = Math.floor(minutesNotTruncated);
+        var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+    return degrees + "°" + minutes + "′" + seconds+"″";
+    }
+    function convertDMS(lat, lng) {
+        var latitude = toDegreesMinutesAndSeconds(lat);
+        var latitudeCardinal = lat >= 0 ? "N" : "S";
+        var longitude = toDegreesMinutesAndSeconds(lng);
+        var longitudeCardinal = lng >= 0 ? "E" : "W";
+    return longitude + longitudeCardinal + " / " + latitude + latitudeCardinal;
+    }
+    var pos = convertDMS(lat, lon);
+    $('#altiProfil .menu-content #altiProfil_help').hide();
+    $('#altiProfil .menu-content #altiProfil_table').show();
+    $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
 }
 
 function getProfilJsonResponse(params, aCallback){
@@ -119,7 +138,7 @@ function getProfil(p1,p2){
             yaxis: {
                 title: LOCALES_ALTI_ELEVATION
             },
-            hovermode:'closest',
+            hovermode:'closest'/*,
             annotations: [{
                 font: {
                     size: 11
@@ -131,7 +150,7 @@ function getProfil(p1,p2){
                 showarrow: false,
                 //text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
                 text: `P1 (${convertDMS(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${convertDMS(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})`
-            },/*{
+            },{
                 font: {
                     size: 10
                 },
@@ -142,7 +161,7 @@ function getProfil(p1,p2){
                 y: -0.21,
                 showarrow: false,
                 text: `<i>${LOCALES_ALTI_DATASOURCE} : ${_altisource}</i>`
-            }*/],
+            }]*/,
             showlegend: false,
             autosize: true
         };
@@ -274,7 +293,10 @@ function initAltiProfil() {
                 altiProfilLayer.destroyFeatures();
                 $('#altiProfil .menu-content #profil-chart').hide();
                 $('#altiProfil .menu-content #profil-chart-container').empty();
-                $('#altiProfil .menu-content span').html( "..." );
+                $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
+                $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
+                $('#altiProfil .menu-content #altiProfil_table #alt-p1').empty();
+                $('#altiProfil .menu-content #altiProfil_table #alt-p2').empty();
             }
             var lonlat = map.getLonLatFromPixel(e.xy);
             altiProfilLayer.addFeatures([
@@ -305,6 +327,8 @@ function initAltiProfil() {
                 ctrl.deactivate();
             }
         });
+        $('#altiProfil .menu-content #altiProfil_help').show();
+        $('#altiProfil .menu-content #altiProfil_table').hide();
         altiProfilLayer.setVisibility(true);
         profilClick.activate();
     }
@@ -317,7 +341,10 @@ function initAltiProfil() {
             }
         });
         $('#altiProfil .menu-content #profil-chart-container').empty();
-        $('#altiProfil .menu-content span').html( "..." );
+        $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
+        $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
+        $('#altiProfil .menu-content #altiProfil_table #alt-p1').empty();
+        $('#altiProfil .menu-content #altiProfil_table #alt-p2').empty();
         altiProfilLayer.destroyFeatures();
         altiProfilLayer.setVisibility(false);
         profilClick.deactivate();
