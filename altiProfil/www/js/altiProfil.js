@@ -131,7 +131,7 @@ function getProfil(p1,p2){
                 showarrow: false,
                 //text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
                 text: `P1 (${convertDMS(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${convertDMS(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})`
-            },{
+            },/*{
                 font: {
                     size: 10
                 },
@@ -142,7 +142,7 @@ function getProfil(p1,p2){
                 y: -0.21,
                 showarrow: false,
                 text: `<i>${LOCALES_ALTI_DATASOURCE} : ${_altisource}</i>`
-            }],
+            }*/],
             showlegend: false,
             autosize: true
         };
