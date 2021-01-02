@@ -47,8 +47,8 @@ function getAlti(lon,lat, numFeat){
         var degrees = Math.floor(absolute);
         var minutesNotTruncated = (absolute - degrees) * 60;
         var minutes = Math.floor(minutesNotTruncated);
-        var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
-    return degrees + "°" + minutes + "′" + seconds+"″";
+        var seconds = parseFloat((minutesNotTruncated - minutes) * 60).toFixed(1);
+    return degrees + '&deg;' + minutes + '&apos;' + seconds+'&quot;';
     }
     function convertDMS(lat, lng) {
         var latitude = toDegreesMinutesAndSeconds(lat);
@@ -112,8 +112,8 @@ function getProfil(p1,p2){
         var degrees = Math.floor(absolute);
         var minutesNotTruncated = (absolute - degrees) * 60;
         var minutes = Math.floor(minutesNotTruncated);
-        var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
-    return degrees + "°" + minutes + "′" + seconds+"″";
+        var seconds = parseFloat((minutesNotTruncated - minutes) * 60).toFixed(1);
+    return degrees + '&deg;' + minutes + '&apos;' + seconds+'&quot;';
     }
     function convertDMS(lat, lng) {
         var latitude = toDegreesMinutesAndSeconds(lat);
