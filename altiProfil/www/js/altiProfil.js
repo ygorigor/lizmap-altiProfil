@@ -26,6 +26,7 @@ function getAlti(lon,lat, numFeat){
     if(lizMap.map.projection.projCode != "EPSG:4326"){
         var fromProjection = new OpenLayers.Projection(lizMap.map.projection.projCode);
         var toProjection = new OpenLayers.Projection("EPSG:4326");
+        var Point = new OpenLayers.LonLat(lon, lat);
         var convertedPoint = new OpenLayers.LonLat(lon, lat);
         convertedPoint.transform(fromProjection, toProjection);
         lon = convertedPoint.lon;
@@ -42,25 +43,28 @@ function getAlti(lon,lat, numFeat){
         var alt = data['elevations'][0]['z'];
         $('#altiProfil .menu-content #alt-p'+numFeat).html( alt ).append(' m');
     });
-    function toDegreesMinutesAndSeconds(coordinate) {
-        var absolute = Math.abs(coordinate);
-        var degrees = Math.floor(absolute);
-        var minutesNotTruncated = (absolute - degrees) * 60;
-        var minutes = Math.floor(minutesNotTruncated);
-        var seconds = parseFloat((minutesNotTruncated - minutes) * 60).toFixed(1);
-    return degrees + '&deg;' + minutes + '&apos;' + seconds+'&quot;';
+    var pos = function choose_coordsunits() {
+        if ($('#content').hasClass('mobile')) {
+            var coordsunits = 'dms';
+        }else{
+            var coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
+        }
+        if ((coordsunits === 'dm') || (coordsunits === 'dms')) {
+            var position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
+        }else if (coordsunits === 'degrees') {
+                var position = lon.toFixed(5)+' / '+ lat.toFixed(5);
+        }else if (coordsunits === 'm'){
+                var position = Math.floor(Point.lon) +' / '+ Math.floor(Point.lat);
+        }
+    return position;
     }
-    function convertDMS(lat, lng) {
-        var latitude = toDegreesMinutesAndSeconds(lat);
-        var latitudeCardinal = lat >= 0 ? "N" : "S";
-        var longitude = toDegreesMinutesAndSeconds(lng);
-        var longitudeCardinal = lng >= 0 ? "E" : "W";
-    return longitude + longitudeCardinal + " / " + latitude + latitudeCardinal;
-    }
-    var pos = convertDMS(lat, lon);
+    //var pos = OpenLayers.Util.getFormattedLonLat(lon, 'lon', 'dms')+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', 'dms');
     $('#altiProfil .menu-content #altiProfil_help').hide();
     $('#altiProfil .menu-content #altiProfil_table').show();
     $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
+    $('lizmap-mouse-position > div.coords-unit').on('change', function(){
+        $('#altiProfil_table').val();
+    });
 }
 
 function getProfilJsonResponse(params, aCallback){
@@ -106,21 +110,6 @@ function getProfil(p1,p2){
         'repository': lizUrls.params.repository,
         'project': lizUrls.params.project,
         'sampling' : Math.round(p1.distanceTo(p2))/2 /* Seulement utilisé pour l'IGN => Nombre de points constituant le graphique */
-    }
-    function toDegreesMinutesAndSeconds(coordinate) {
-        var absolute = Math.abs(coordinate);
-        var degrees = Math.floor(absolute);
-        var minutesNotTruncated = (absolute - degrees) * 60;
-        var minutes = Math.floor(minutesNotTruncated);
-        var seconds = parseFloat((minutesNotTruncated - minutes) * 60).toFixed(1);
-    return degrees + '&deg;' + minutes + '&apos;' + seconds+'&quot;';
-    }
-    function convertDMS(lat, lng) {
-        var latitude = toDegreesMinutesAndSeconds(lat);
-        var latitudeCardinal = lat >= 0 ? "N" : "S";
-        var longitude = toDegreesMinutesAndSeconds(lng);
-        var longitudeCardinal = lng >= 0 ? "E" : "W";
-    return longitude + longitudeCardinal + " / " + latitude + latitudeCardinal;
     }
     getProfilJsonResponse(qParams, function(data){
         var _x = data[0]['x'];
