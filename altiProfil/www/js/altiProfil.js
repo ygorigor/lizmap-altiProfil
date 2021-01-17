@@ -340,6 +340,7 @@ function initAltiProfil() {
         profilClick.deactivate();
     }
     $('#altiProfil-stop').click(function(){$('#button-altiProfil').click();});
+    $('#altiProfil-stop').tooltip({placement: 'bottom'});
 
     lizMap.events.on({
         // Dock opened
