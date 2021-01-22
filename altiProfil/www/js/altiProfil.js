@@ -26,6 +26,7 @@ function getAlti(lon,lat, numFeat){
     if(lizMap.map.projection.projCode != "EPSG:4326"){
         var fromProjection = new OpenLayers.Projection(lizMap.map.projection.projCode);
         var toProjection = new OpenLayers.Projection("EPSG:4326");
+        var Point = new OpenLayers.LonLat(lon, lat);
         var convertedPoint = new OpenLayers.LonLat(lon, lat);
         convertedPoint.transform(fromProjection, toProjection);
         lon = convertedPoint.lon;
@@ -49,13 +50,11 @@ function getAlti(lon,lat, numFeat){
             var coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
         }
         if ((coordsunits === 'dm') || (coordsunits === 'dms')) {
-            var longitude = $('lizmap-mouse-position > div.mouse-position span').first().text();
-            var latitude = $('lizmap-mouse-position > div.mouse-position span').last().text();
-            var position = longitude +' / ' + latitude;
-        }else{
-            var longitude = $('lizmap-mouse-position > div.mouse-position input').first().val();
-            var latitude = $('lizmap-mouse-position > div.mouse-position input').last().val();
-            var position = longitude +' / ' + latitude;
+            var position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
+        }else if (coordsunits === 'degrees') {
+                var position = lon.toFixed(5)+' / '+ lat.toFixed(5);
+        }else if (coordsunits === 'm'){
+                var position = Math.floor(Point.lon) +' / '+ Math.floor(Point.lat);
         }
     return position;
     }
