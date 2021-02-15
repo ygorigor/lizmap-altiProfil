@@ -281,6 +281,7 @@ function initAltiProfil() {
                 altiProfilLayer.destroyFeatures();
                 $('#altiProfil .menu-content #profil-chart').hide();
                 $('#altiProfil .menu-content #profil-chart-container').empty();
+                $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
                 $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
                 $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
                 $('#altiProfil .menu-content #altiProfil_table #alt-p1').empty();
@@ -330,6 +331,7 @@ function initAltiProfil() {
         });
         $('#altiProfil .menu-content #profil-chart').hide();
         $('#altiProfil .menu-content #profil-chart-container').empty();
+        $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
         $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
         $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
         $('#altiProfil .menu-content #altiProfil_table #alt-p1').empty();
