@@ -40,7 +40,7 @@
     </colgroup>
     <thead style="background-color:lightgray";>
         <tr>
-        <th></th>
+        <th>P</th>
         <th>{@altiProfil~altiProfil.alti.position@}</th>
         <th>{@altiProfil~altiProfil.alti.altitude@}</th>
         </tr>
