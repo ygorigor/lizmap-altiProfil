@@ -22,11 +22,10 @@
   
 </script>
 <div class="altiProfil">
-<div id="altiProfil">
-  <div class="menu-content">
+<div class="menu-content">
+  <div id="altiProfil-box">
     <div id="altiProfil_help">{@altiProfil~altiProfil.dock.help@}</div>
-    <font size="3">
-    <table id="altiProfil_table" style="width:100%" class="table table-condensed table-bordered lizmapPopupTable">
+    <table id="altiProfil_table" style="width:100%; font-size: 1.4em" class="table table-condensed table-bordered lizmapPopupTable">
     <colgroup>
        <col span="1" style="width: 10%;">
        <col span="1" style="width: 45%;">
@@ -51,7 +50,7 @@
         <td id=alt-p2></td>
         </tr>
         </tbody>
-    </table></font>
+    </table>
     <div id="profil-chart">
       <div class="spinner"></div>
       <div id="profil-chart-container"></div>

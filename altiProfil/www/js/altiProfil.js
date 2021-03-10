@@ -58,6 +58,7 @@ function getAlti(lon,lat, numFeat){
         }
     return position;
     }
+    $('#altiProfil-box').css({'width': '500px'});
     $('#altiProfil .menu-content #altiProfil_help').hide();
     $('#altiProfil .menu-content #altiProfil_table').show();
     $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
@@ -316,6 +317,7 @@ function initAltiProfil() {
                 ctrl.deactivate();
             }
         });
+        $('#altiProfil-box').css({'width': ''});
         $('#altiProfil .menu-content #altiProfil_help').show();
         $('#altiProfil .menu-content #altiProfil_table').hide();
         altiProfilLayer.setVisibility(true);

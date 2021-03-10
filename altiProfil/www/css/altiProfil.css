@@ -14,12 +14,12 @@
     outline: none;
 }
 
-#altiProfil {
-    width: 500px;
+#altiProfil-box {
+    /*width: 500px;*/
     height: 100%;
     z-index: 100000;
     color: #333;
-    overflow: auto;
+    overflow: hidden;
     font-size: 0.85em;
     max-width: 100%;
 }
@@ -52,6 +52,7 @@
     border: 6px solid #fff;
     border-color: #474747 transparent #474747 transparent;
     animation: lds-dual-ring 1.2s linear infinite;
+    overflow: none;
 }
 
 #mini-dock .altiProfil h3 .icon {
