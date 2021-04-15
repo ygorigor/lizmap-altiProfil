@@ -190,7 +190,20 @@ function getProfil(p1,p2){
             '<br /><b>lon</b> : %{customdata[0].lon:.4f} / <b>lat</b> : %{customdata[0].lat:.4f}</b>'+
             '<extra></extra>'
           };
-        var data = [profilLine];
+          var StartStopLine = {
+            x: [_x[0], _x[_x.length - 1]],
+            y: [_y[0], _y[_y.length - 1]],
+            customdata:_customdata,
+            mode: 'lines+markers',
+            line: {
+              color: 'red',
+              width: 1.5
+            }
+            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y} m' +
+            '<br /><b>lon</b> : %{customdata[0].lon:.4f} / <b>lat</b> : %{customdata[0].lat:.4f}</b>'+
+            '<extra></extra>'
+          };
+        var data = [profilLine,StartStopLine];
 
 
         var config = {
