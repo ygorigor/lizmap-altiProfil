@@ -186,7 +186,8 @@ function getProfil(p1,p2){
               color: 'rgb(128, 0, 128)',
               width: 1
             }
-            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y} m' +
+            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}m' +
+            '<br /><b>' + LOCALES_ALTI_DISTANCE + '</b> : %{x}m'+
             '<br /><b>lon</b> : %{customdata[0].lon:.4f} / <b>lat</b> : %{customdata[0].lat:.4f}</b>'+
             '<extra></extra>'
           };
@@ -199,8 +200,8 @@ function getProfil(p1,p2){
               color: 'red',
               width: 1.5
             }
-            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y} m' +
-            '<br /><b>lon</b> : %{customdata[0].lon:.4f} / <b>lat</b> : %{customdata[0].lat:.4f}</b>'+
+            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}m' +
+            '<br /><b>' + LOCALES_ALTI_DISTANCE + '</b> : %{x}m'+
             '<extra></extra>'
           };
         var data = [profilLine,StartStopLine];
