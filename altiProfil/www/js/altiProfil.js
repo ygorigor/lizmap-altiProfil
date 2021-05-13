@@ -206,10 +206,11 @@ function getProfil(p1,p2){
           };
         var data = [profilLine,StartStopLine];
 
-
+        var plotLocale = lizMap.config.datavizLayers.locale.substring(0, 2);
         var config = {
             showlegend: false,
             displaylogo: false,
+            locale: plotLocale,
             responsive: true,
             toImageButtonOptions: {
               format: 'jpeg', // one of png, svg, jpeg, webp
