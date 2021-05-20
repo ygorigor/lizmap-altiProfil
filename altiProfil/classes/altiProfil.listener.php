@@ -91,11 +91,15 @@ class altiProfilListener extends jEventListener{
                 if (file_exists(jApp::wwwPath('js/dataviz/plotly-latest.min.js'))) {
                     $js[] = $bp.'js/dataviz/plotly-latest.min.js';
                     $js[] = $bp.'js/dataviz/dataviz.js';
-                    $js[] = $bp.'js/dataviz/plotly-locale-'.$locale.'-latest.js';
                 }
                 if (file_exists(jApp::wwwPath('assets/js/dataviz/plotly-latest.min.js'))) {
                     $js[] = $bp.'assets/js/dataviz/plotly-latest.min.js';
                     $js[] = $bp.'assets/js/dataviz/dataviz.js';
+                }
+                if (file_exists(jApp::wwwPath('js/dataviz/plotly-locale-'.$locale.'-latest.js'))) {
+                    $js[] = $bp.'js/dataviz/plotly-locale-'.$locale.'-latest.js';
+                }
+                if (file_exists(jApp::wwwPath('assets/js/dataviz/plotly-locale-'.$locale.'-latest.js'))) {
                     $js[] = $bp.'assets/js/dataviz/plotly-locale-'.$locale.'-latest.js';
                 }
             }
