@@ -96,6 +96,7 @@ class altiProfilListener extends jEventListener{
             $jscode = array();
             $css = array();
             $js [] = jUrl::get('jelix~www:getfile', array('targetmodule'=>'altiProfil', 'file'=>'js/altiProfil.js'));
+            $locale = substr(jApp::config()->locale, 0, 2);
 
             // Add Dataviz if not already available
             if ( !$this->getDatavizStatus($event) ) {
@@ -103,10 +104,12 @@ class altiProfilListener extends jEventListener{
                 if (file_exists(jApp::wwwPath('js/dataviz/plotly-latest.min.js'))) {
                     $js[] = $bp.'js/dataviz/plotly-latest.min.js';
                     $js[] = $bp.'js/dataviz/dataviz.js';
+                    $js[] = $bp.'js/dataviz/plotly-locale-'.$locale.'-latest.js';
                 }
                 if (file_exists(jApp::wwwPath('assets/js/dataviz/plotly-latest.min.js'))) {
                     $js[] = $bp.'assets/js/dataviz/plotly-latest.min.js';
                     $js[] = $bp.'assets/js/dataviz/dataviz.js';
+                    $js[] = $bp.'assets/js/dataviz/plotly-locale-'.$locale.'-latest.js';
                 }
             }
             $css = array(
