@@ -111,6 +111,19 @@ function getProfil(p1,p2){
         'project': lizUrls.params.project,
         'sampling' : Math.round(p1.distanceTo(p2))/2 /* Seulement utilisé pour l'IGN => Nombre de points constituant le graphique */
     }
+    function choose_coordsunits(lat, lon) {
+        if ($('#content').hasClass('mobile')) {
+            var coordsunits = 'dms';
+        }else{
+            var coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
+        }
+        if ((coordsunits === 'dm') || (coordsunits === 'dms')) {
+            var position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
+        }else if ((coordsunits === 'degrees') || (coordsunits === 'm')) {
+                var position = lon.toFixed(5)+' / '+ lat.toFixed(5);
+        }
+    return position;
+    }
     getProfilJsonResponse(qParams, function(data){
         var _x = data[0]['x'];
         var _y = data[0]['y'];
@@ -127,7 +140,7 @@ function getProfil(p1,p2){
             yaxis: {
                 title: LOCALES_ALTI_ELEVATION
             },
-            hovermode:'closest'/*,
+            hovermode:'closest',
             annotations: [{
                 font: {
                     size: 11
@@ -138,8 +151,8 @@ function getProfil(p1,p2){
                 y: 1.16,
                 showarrow: false,
                 //text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
-                text: `P1 (${convertDMS(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${convertDMS(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})`
-            },{
+                text: `P1 (${choose_coordsunits(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${choose_coordsunits(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})`
+            }/*,{
                 font: {
                     size: 10
                 },
@@ -150,7 +163,7 @@ function getProfil(p1,p2){
                 y: -0.21,
                 showarrow: false,
                 text: `<i>${LOCALES_ALTI_DATASOURCE} : ${_altisource}</i>`
-            }]*/,
+            }*/],
             showlegend: false,
             autosize: true
         };
