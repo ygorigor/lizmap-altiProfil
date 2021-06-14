@@ -68,7 +68,7 @@ function getAlti(lon,lat, numFeat){
 }
 
 function getProfilJsonResponse(params, aCallback){
-    $('#altiProfil .menu-content #profil-chart .spinner').show();
+    $('#altiProfil .menu-content #profil-chart .altiProfil-spinner').show();
     $.get(
         URLAJAXALTIPROFIL,
         params,
@@ -237,7 +237,7 @@ function getProfil(p1,p2){
                 'sendDataToCloud', 'toggleSpikelines', 'resetViewMapbox', 'hoverClosestCartesian', 'hoverCompareCartesian']*/
           };
         Plotly.newPlot('profil-chart-container', data, layout, config);
-        $('#altiProfil .menu-content #profil-chart .spinner').hide();
+        $('#altiProfil .menu-content #profil-chart .altiProfil-spinner').hide();
         var myPlot = document.getElementById('profil-chart-container');
 
         myPlot.on('plotly_click', function(data){

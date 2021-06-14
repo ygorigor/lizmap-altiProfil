@@ -52,7 +52,7 @@
         </tbody>
     </table>
     <div id="profil-chart">
-      <div class="spinner"></div>
+      <div class="altiProfil-spinner"></div>
       <div id="profil-chart-container"></div>
     </div>  
   </div>

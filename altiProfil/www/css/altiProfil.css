@@ -24,14 +24,14 @@
     max-width: 100%;
 }
 
-#dock-content #altiProfil .menu-content #profil-chart .spinner{
+#dock-content #altiProfil .menu-content #profil-chart .altiProfil-spinner{
     display: inline-block;
     width: 80px;
     height: 80px;
 }
 
-#dock-content #altiProfil .menu-content #profil-chart .spinner{
-    content: " ";
+#dock-content #altiProfil .menu-content #profil-chart .altiProfil-spinner{
+    content: "";
     display: block;
     width: 34px;
     height: 34px;
@@ -42,8 +42,8 @@
     animation: lds-dual-ring 1.2s linear infinite;
 }
 
-#mini-dock-content #altiProfil .menu-content #profil-chart .spinner{
-    content: " ";
+#mini-dock-content #altiProfil .menu-content #profil-chart .altiProfil-spinner{
+    content: "";
     display: block;
     width: 34px;
     height: 34px;
@@ -52,7 +52,6 @@
     border: 6px solid #fff;
     border-color: #474747 transparent #474747 transparent;
     animation: lds-dual-ring 1.2s linear infinite;
-    overflow: none;
 }
 
 #mini-dock .altiProfil h3 .icon {
