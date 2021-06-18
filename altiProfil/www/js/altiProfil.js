@@ -143,7 +143,7 @@ function getProfil(p1,p2){
             hovermode:'closest',
             annotations: [{
                 font: {
-                    size: 11
+                    size: 12
                 },
                 align:'center',
                 xref:'paper',
@@ -208,7 +208,13 @@ function getProfil(p1,p2){
             x: [_x[0], _x[_x.length - 1]],
             y: [_y[0], _y[_y.length - 1]],
             customdata:_customdata,
-            mode: 'lines+markers',
+            mode: 'lines+markers+text',
+            text: ['<b>'+_y[0]+'m'+'</b>', '<b>'+_y[_y.length - 1]+'m'+'</b>'],
+            textposition: 'top center',
+            textfont: {
+                size: 14,
+                color: 'red'
+            },
             line: {
               color: 'red',
               width: 1.5
