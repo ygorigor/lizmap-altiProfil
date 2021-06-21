@@ -24,33 +24,8 @@
 <div class="altiProfil">
 <div class="menu-content">
   <div id="altiProfil-box">
-    <div id="altiProfil_help">{@altiProfil~altiProfil.dock.help@}</div>
-    <table id="altiProfil_table" style="width:100%; font-size: 1.4em" class="table table-condensed table-bordered lizmapPopupTable">
-    <colgroup>
-       <col span="1" style="width: 10%;">
-       <col span="1" style="width: 45%;">
-       <col span="1" style="width: 45%;">
-    </colgroup>
-    <thead style="background-color:lightgray";>
-        <tr>
-        <th>P</th>
-        <th>{@altiProfil~altiProfil.alti.position@}</th>
-        <th>{@altiProfil~altiProfil.alti.altitude@}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-        <td>P1</td>
-        <td id="alt-pos1"></td>
-        <td id=alt-p1></td>
-        </tr>
-        <tr>
-        <td>P2</td>
-        <td id="alt-pos2"></td>
-        <td id=alt-p2></td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="altiProfil_help_p1">{@altiProfil~altiProfil.dock.help.p1@}</div>
+    <div id="altiProfil_help_p2">{@altiProfil~altiProfil.dock.help.p2@}</div>
     <div id="profil-chart">
       <div class="altiProfil-spinner"></div>
       <div id="profil-chart-container"></div>

@@ -59,15 +59,14 @@ function getAlti(lon,lat, numFeat){
     return position;
     }
     $('#altiProfil-box').css({'width': '500px'});
-    $('#altiProfil .menu-content #altiProfil_help').hide();
-    $('#altiProfil .menu-content #altiProfil_table').show();
+    $('#altiProfil .menu-content #altiProfil_help_p1').hide();
+    $('#altiProfil .menu-content #altiProfil_help_p2').show();
     $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
-    $('lizmap-mouse-position > div.coords-unit').on('change', function(){
-        $('#altiProfil_table').val();
-    });
 }
 
 function getProfilJsonResponse(params, aCallback){
+    $('#altiProfil .menu-content #altiProfil_help_p1').hide();
+    $('#altiProfil .menu-content #altiProfil_help_p2').hide();
     $('#altiProfil .menu-content #profil-chart .altiProfil-spinner').show();
     $.get(
         URLAJAXALTIPROFIL,
@@ -317,10 +316,6 @@ function initAltiProfil() {
                 $('#altiProfil .menu-content #profil-chart').hide();
                 $('#altiProfil .menu-content #profil-chart-container').empty();
                 $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
-                $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
-                $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
-                $('#altiProfil .menu-content #altiProfil_table #alt-p1').empty();
-                $('#altiProfil .menu-content #altiProfil_table #alt-p2').empty();
             }
             var lonlat = map.getLonLatFromPixel(e.xy);
             altiProfilLayer.addFeatures([
@@ -352,8 +347,8 @@ function initAltiProfil() {
             }
         });
         $('#altiProfil-box').css({'width': ''});
-        $('#altiProfil .menu-content #altiProfil_help').show();
-        $('#altiProfil .menu-content #altiProfil_table').hide();
+        $('#altiProfil .menu-content #altiProfil_help_p1').show();
+        $('#altiProfil .menu-content #altiProfil_help_p2').hide();
         altiProfilLayer.setVisibility(true);
         profilClick.activate();
     }
@@ -368,10 +363,6 @@ function initAltiProfil() {
         $('#altiProfil .menu-content #profil-chart').hide();
         $('#altiProfil .menu-content #profil-chart-container').empty();
         $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
-        $('#altiProfil .menu-content #altiProfil_table #alt-pos1').empty();
-        $('#altiProfil .menu-content #altiProfil_table #alt-pos2').empty();
-        $('#altiProfil .menu-content #altiProfil_table #alt-p1').empty();
-        $('#altiProfil .menu-content #altiProfil_table #alt-p2').empty();
         altiProfilLayer.destroyFeatures();
         altiProfilLayer.setVisibility(false);
         profilClick.deactivate();
