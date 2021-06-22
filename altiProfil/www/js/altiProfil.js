@@ -150,7 +150,7 @@ function getProfil(p1,p2){
                 y: 1.16,
                 showarrow: false,
                 //text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
-                text: `P1 (${choose_coordsunits(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${choose_coordsunits(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})`
+            text: `P1 (${choose_coordsunits(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${choose_coordsunits(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})<br>${LOCALES_ALTI_ALTITUDE} P1: ${_y[0]}m | ${LOCALES_ALTI_ALTITUDE} P2: ${_y[_y.length - 1]}m`
             }/*,{
                 font: {
                     size: 10
@@ -207,13 +207,7 @@ function getProfil(p1,p2){
             x: [_x[0], _x[_x.length - 1]],
             y: [_y[0], _y[_y.length - 1]],
             customdata:_customdata,
-            mode: 'lines+markers+text',
-            text: ['<b>'+_y[0]+'m'+'</b>', '<b>'+_y[_y.length - 1]+'m'+'</b>'],
-            textposition: 'top center',
-            textfont: {
-                size: 14,
-                color: 'red'
-            },
+            mode: 'lines+markers',
             line: {
               color: 'red',
               width: 1.5
