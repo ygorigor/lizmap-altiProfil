@@ -67,6 +67,6 @@
       transform: rotate(360deg);
     }
 }
-
-
-
+#altiProfil .menu-content {
+    max-height: max-content !important;
+}
