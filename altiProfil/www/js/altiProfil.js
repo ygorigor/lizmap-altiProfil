@@ -58,7 +58,6 @@ function getAlti(lon,lat, numFeat){
         }
     return position;
     }
-    //$('#altiProfil-box').css({'width': '500px'});
     $('#altiProfil .menu-content #altiProfil_help_p1').hide();
     $('#altiProfil .menu-content #altiProfil_help_p2').show();
     $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
@@ -164,7 +163,13 @@ function getProfil(p1,p2){
                 text: `<i>${LOCALES_ALTI_DATASOURCE} : ${_altisource}</i>`
             }*/],
             showlegend: false,
-            autosize: true
+            autosize: true,
+            margin: {
+                l: 50,
+                r: 5,
+                b: 50,
+                t: 90
+            }
         };
 
         //add extra info if datasource from DB
