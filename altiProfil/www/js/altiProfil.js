@@ -58,7 +58,7 @@ function getAlti(lon,lat, numFeat){
         }
     return position;
     }
-    $('#altiProfil-box').css({'width': '500px'});
+    //$('#altiProfil-box').css({'width': '500px'});
     $('#altiProfil .menu-content #altiProfil_help_p1').hide();
     $('#altiProfil .menu-content #altiProfil_help_p2').show();
     $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
@@ -237,6 +237,7 @@ function getProfil(p1,p2){
           };
         Plotly.newPlot('profil-chart-container', data, layout, config);
         $('#altiProfil .menu-content #profil-chart .altiProfil-spinner').hide();
+        $('#altiProfil-box').css({'width': '500px'});
         var myPlot = document.getElementById('profil-chart-container');
 
         myPlot.on('plotly_click', function(data){
@@ -308,6 +309,7 @@ function initAltiProfil() {
             if(altiProfilLayer.features.length>=2){
                 altiProfilLayer.destroyFeatures();
                 $('#altiProfil .menu-content #profil-chart').hide();
+                $('#altiProfil-box').css({'width': ''});
                 $('#altiProfil .menu-content #profil-chart-container').empty();
                 $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
             }

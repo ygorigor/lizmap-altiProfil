@@ -15,7 +15,6 @@
 }
 
 #altiProfil-box {
-    /*width: 500px;*/
     height: 100%;
     z-index: 100000;
     color: #333;
@@ -69,4 +68,10 @@
 }
 #altiProfil .menu-content {
     max-height: max-content !important;
+}
+#altiProfil-box .js-plotly-plot .plotly .main-svg {
+    background: transparent !important;
+}
+#altiProfil .menu-content {
+    padding: 0.2em !important;
 }
