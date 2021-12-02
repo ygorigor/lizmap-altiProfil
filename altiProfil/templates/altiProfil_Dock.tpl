@@ -10,6 +10,7 @@
     var LOCALES_ALTI_ALTITUDE = "{@altiProfil~altiProfil.alti.altitude@}";
     
     var ALTI_PROVIDER = "{$altiProvider}";
+
     {if $altiProvider == "database"}      
       {if $profilUnit == "DEGREES"}
         var LOCALES_ALTI_UNIT = "{@altiProfil~altiProfil.alti.degrees@}";
