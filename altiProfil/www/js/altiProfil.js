@@ -165,10 +165,9 @@ function getProfil(p1,p2){
             showlegend: false,
             autosize: true,
             margin: {
-                l: 50,
-                r: 5,
-                b: 50,
-                t: 90
+                l: 60,
+                r: 10,
+                b: 60
             }
         };
 
