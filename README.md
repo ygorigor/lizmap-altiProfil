@@ -1,5 +1,8 @@
 # lizmap-altiProfil
 
+⚠ **This repository has been moved to https://github.com/arno974/lizmap-altiProfil** ⚠
+
+## Description
 
 Ce Module Lizmap permet la création de profils topographiques à partir du web 
 service de l'IGN ou d'une base postgis disposant d'une table raster avec un MNT.
