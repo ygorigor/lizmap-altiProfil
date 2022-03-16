@@ -1,6 +1,6 @@
 # lizmap-altiProfil
 
-⚠ **This repository has been moved to https://github.com/arno974/lizmap-altiProfil** ⚠
+[![Packagist](https://img.shields.io/packagist/v/arno974/lizmap-altiprofil)](https://packagist.org/packages/arno974/lizmap-altiprofil)
 
 ## Description
 
@@ -25,7 +25,7 @@ section sur l'installation manuelle.
 
 ```bash
 cp -n lizmap/my-packages/composer.json.dist lizmap/my-packages/composer.json
-composer require --working-dir=lizmap/my-packages "lizmap/lizmap-altiprofil"
+composer require --working-dir=lizmap/my-packages "arno974/lizmap-altiprofil"
 ```
 
 * Ensuite lancez les scripts d'installation de Lizmap :
