@@ -10,6 +10,6 @@
         <homepageURL>http://geolab.re</homepageURL>
     </info>
     <dependencies>
-        <module name="lizmap" />
+        <module name="lizmap" minversion="3.3.4" maxversion="3.7.*" />
     </dependencies>
 </module>
