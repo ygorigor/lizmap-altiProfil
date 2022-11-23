@@ -1,5 +1,6 @@
+/*jshint esversion: 6 */
 lizMap.events.on({
-    'uicreated': function(e) {
+    uicreated: (e) => {
         $('#profil-stop').click(function(){
             $('#button-altiProfil').click();
         });
@@ -16,8 +17,8 @@ function getAltiJsonResponse(params, aCallback){
             if(aCallback){
                     aCallback(JSON.parse(data));
             }
-        }
-        ,'json'
+        },
+        'json'
     );
 }
 
@@ -38,26 +39,28 @@ function getAlti(lon,lat, numFeat){
         'srs': lizMap.map.projection.projCode,
         'repository': lizUrls.params.repository,
         'project': lizUrls.params.project
-    }
+    };
     getAltiJsonResponse(qParams, function(data){
-        var alt = data['elevations'][0]['z'];
+        var alt = data.elevations[0].z;
         $('#altiProfil .menu-content #alt-p'+numFeat).html( alt ).append(' m');
     });
+    var coordsunits = '';
+    var position = '';
     var pos = function choose_coordsunits() {
         if ($('#content').hasClass('mobile')) {
-            var coordsunits = 'dms';
+            coordsunits = 'dms';
         }else{
-            var coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
+            coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
         }
         if ((coordsunits === 'dm') || (coordsunits === 'dms')) {
-            var position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
+            position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
         }else if (coordsunits === 'degrees') {
-                var position = lon.toFixed(5)+' / '+ lat.toFixed(5);
+                position = lon.toFixed(5)+' / '+ lat.toFixed(5);
         }else if (coordsunits === 'm'){
-                var position = Math.floor(Point.lon) +' / '+ Math.floor(Point.lat);
+                position = Math.floor(Point.lon) +' / '+ Math.floor(Point.lat);
         }
     return position;
-    }
+    };
     $('#altiProfil .menu-content #altiProfil_help_p1').hide();
     $('#altiProfil .menu-content #altiProfil_help_p2').show();
     $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
@@ -74,8 +77,8 @@ function getProfilJsonResponse(params, aCallback){
             if(aCallback){
                     aCallback(JSON.parse(data));
             }
-        }
-        ,'json'
+        },
+        'json'
     );
 }
 
@@ -108,26 +111,28 @@ function getProfil(p1,p2){
         'repository': lizUrls.params.repository,
         'project': lizUrls.params.project,
         'sampling' : Math.round(p1.distanceTo(p2))/2 /* Only use with french mapping Agency (IGN) web service  */
-    }
+    };
     function choose_coordsunits(lat, lon) {
+        var coordsunits = '';
+        var position = '';
         if ($('#content').hasClass('mobile')) {
-            var coordsunits = 'dms';
+            coordsunits = 'dms';
         }else{
-            var coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
+            coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
         }
         if ((coordsunits === 'dm') || (coordsunits === 'dms')) {
-            var position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
+            position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
         }else if ((coordsunits === 'degrees') || (coordsunits === 'm')) {
-                var position = lon.toFixed(5)+' / '+ lat.toFixed(5);
+                position = lon.toFixed(5)+' / '+ lat.toFixed(5);
         }
     return position;
     }
     getProfilJsonResponse(qParams, function(data){
-        var _x = data[0]['x'];
-        var _y = data[0]['y'];
-        var _customdata = data[0]['customdata'];
-        var _srs = data[0]['srid'];
-        var _altisource = data[0]['altisource'];
+        var _x = data[0].x;
+        var _y = data[0].y;
+        var _customdata = data[0].customdata;
+        var _srs = data[0].srid;
+        var _altisource = data[0].altisource;
 
         var layout = {
             title: '<b>'+LOCALES_ALTI_PROFIL+'</b>',
@@ -173,11 +178,11 @@ function getProfil(p1,p2){
 
         //add extra info if datasource from DB
         if ( ALTI_PROVIDER == "database"){
-            var _resolution = data[0]['resolution'];
+            var _resolution = data[0].resolution;
            // var _slope = data[0]['slope'];
            // _slope = $.parseJSON(_slope);
 
-            layout['title'] = '<b>Profil ('+ LOCALES_ALTI_RESOLUTION +' ' +_resolution+ 'm)';
+            layout.title = '<b>Profil ('+ LOCALES_ALTI_RESOLUTION +' ' +_resolution+ 'm)';
             /*layout['annotations'].push(
                 {
                     font: {
@@ -201,8 +206,8 @@ function getProfil(p1,p2){
             line: {
               color: 'rgb(128, 0, 128)',
               width: 1
-            }
-            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}m' +
+            },
+            hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}m' +
             '<br /><b>' + LOCALES_ALTI_DISTANCE + '</b> : %{x}m'+
             '<br /><b>lon</b> : %{customdata[0].lon:.4f} / <b>lat</b> : %{customdata[0].lat:.4f}</b>'+
             '<extra></extra>'
@@ -215,12 +220,12 @@ function getProfil(p1,p2){
             line: {
               color: 'red',
               width: 1.5
-            }
-            ,hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}m' +
+            },
+            hovertemplate: '<b>' + LOCALES_ALTI_ALTITUDE + '</b>: %{y}m' +
             '<br /><b>' + LOCALES_ALTI_DISTANCE + '</b> : %{x}m'+
             '<extra></extra>'
           };
-        var data = [profilLine,StartStopLine];
+        data = [profilLine,StartStopLine];
 
         var plotLocale = navigator.language || navigator.userLanguage;
         var config = {
@@ -261,7 +266,7 @@ function getProfil(p1,p2){
             ]);
         });
         document.getElementsByClassName('xtitle')[0].y.baseVal[0].value = document.getElementsByClassName('xtitle')[0].y.baseVal[0].value - 20;
-        resizePlot('profil-chart-container')
+        resizePlot('profil-chart-container');
     });
 }
 
@@ -375,39 +380,36 @@ function initAltiProfil() {
 
     lizMap.events.on({
         // Dock opened
-        dockopened: function(e) {
+        dockopened: (e) => {
             if ( e.id == 'altiProfil' ) {
                 onAltiDockOpened();
             }
         },
-        minidockopened: function(e) {
+        minidockopened: (e) => {
             if ( e.id == 'altiProfil' ) {
                 onAltiDockOpened();
             }
         },
-        rightdockopened: function(e) {
+        rightdockopened: (e) => {
             if ( e.id == 'altiProfil' ) {
                 onAltiDockOpened();
             }
         },
         // Dock closed
-        dockclosed: function(e) {
+        dockclosed: (e) => {
             if ( e.id == 'altiProfil' ) {
                 onAltiDockClosed();
             }
         },
-        minidockclosed: function(e) {
+        minidockclosed: (e) => {
             if ( e.id == 'altiProfil' ) {
                 onAltiDockClosed();
             }
         },
-        rightdockclosed: function(e) {
+        rightdockclosed: (e) => {
             if ( e.id == 'altiProfil' ) {
                 onAltiDockClosed();
             }
         }
     });
-
-
-
 }
