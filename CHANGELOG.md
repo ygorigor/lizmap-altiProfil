@@ -2,6 +2,13 @@
  
 ## Unreleased
 
+### Changed
+
+
+## 0.3.0 - 2022-12-15
+
+### Added
+
 ## 0.2.3 - 2022-03-11
 
 * Fix IGN service Provider and set it as default provider
