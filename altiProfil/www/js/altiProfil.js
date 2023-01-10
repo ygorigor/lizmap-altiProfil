@@ -82,14 +82,8 @@ function getProfilJsonResponse(params, aCallback){
     );
 }
 
-function resizePlot(id){
-    var d3 = Plotly.d3;
-    var gd = d3.select('#'+id)
-    .style({
-        width: '100%',
-        margin: '0px'
-    });
-    Plotly.Plots.resize(gd.node());
+function resizePlot(){
+    window.dispatchEvent(new Event('resize'));
 }
 
 function getProfil(p1,p2){
@@ -266,7 +260,7 @@ function getProfil(p1,p2){
             ]);
         });
         document.getElementsByClassName('xtitle')[0].y.baseVal[0].value = document.getElementsByClassName('xtitle')[0].y.baseVal[0].value - 20;
-        resizePlot('profil-chart-container');
+        resizePlot();
     });
 }
 
