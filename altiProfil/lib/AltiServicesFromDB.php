@@ -104,7 +104,7 @@ Class AltiServicesFromDB {
                             ST_Transform(ST_SetSRID(ST_MakePoint(%5$f, %6$f),4326), %4$s)
                         )
                     AS geom
-                ), 
+                ),
                 linemesure AS(
                     -- Add a mesure dimension to extract steps
                     SELECT
@@ -123,7 +123,7 @@ Class AltiServicesFromDB {
                             ELSE %8$d*5
                         END as resolution
                     FROM line
-                ), 
+                ),
                 points2d AS (
                     SELECT ST_GeometryN(ST_LocateAlong(linem, i), 1) AS geom, resolution FROM linemesure
                 ),
@@ -144,12 +144,15 @@ Class AltiServicesFromDB {
                     SELECT ST_MakeLine(geom)as geom, MAX(resolution) as resolution FROM points3d
                 ),
                 xz AS(
-                    SELECT (ST_DumpPoints(geom)).geom AS geom,
-                    ST_StartPoint(geom) AS origin, resolution
-                    FROM line3D
+                    SELECT dp.geom as geom, dp.path[1] as pt_index, ST_distance(origin, dp.geom) as dist, resolution
+                    FROM (
+                       SELECT ST_DumpPoints(geom) AS dp,
+                       ST_StartPoint(geom) AS origin, resolution
+                       FROM line3D
+                    ) as dumpline3D
                 )
             -- Build 3D line from 3D points
-            SELECT ST_distance(origin, geom, false) AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz',
+            SELECT dist AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz ORDER BY pt_index',
             $this->AltiProfileTable,
             $p1Lon, $p1Lat,
             $this->Srid,
@@ -221,4 +224,3 @@ Class AltiServicesFromDB {
         return json_encode($data);
     }
 }
-
