@@ -123,9 +123,9 @@ Class AltiServicesFromDB {
                             ELSE %8$d*5
                         END as resolution
                     FROM line
-                ),
+                ), 
                 points2d AS (
-                    SELECT ST_GeometryN(ST_LocateAlong(linem, i), 1) AS geom, resolution FROM linemesure
+                    SELECT ST_GeometryN(ST_LocateAlong(linem, i), 1) AS geom, resolution FROM linemesure ORDER BY i
                 ),
                 cells AS (
                     -- Get DEM elevation for each
@@ -144,15 +144,12 @@ Class AltiServicesFromDB {
                     SELECT ST_MakeLine(geom)as geom, MAX(resolution) as resolution FROM points3d
                 ),
                 xz AS(
-                    SELECT dp.geom as geom, dp.path[1] as pt_index, ST_distance(origin, dp.geom) as dist, resolution
-                    FROM (
-                       SELECT ST_DumpPoints(geom) AS dp,
-                       ST_StartPoint(geom) AS origin, resolution
-                       FROM line3D
-                    ) as dumpline3D
+                    SELECT (ST_DumpPoints(geom)).geom AS geom,
+                    ST_StartPoint(geom) AS origin, resolution
+                    FROM line3D
                 )
             -- Build 3D line from 3D points
-            SELECT dist AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz ORDER BY pt_index',
+            SELECT ST_distance(origin, geom) AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz',
             $this->AltiProfileTable,
             $p1Lon, $p1Lat,
             $this->Srid,
