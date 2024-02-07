@@ -30,25 +30,15 @@ class altiProfilListener extends jEventListener{
             'altiProfil',
             jLocale::get('altiProfil~altiProfil.dock.title'),
             $tpl->fetch('altiProfil~altiProfil_Dock'),
-            5
+            5,
+            //'<span%20class="icon-altiProfil"></span>'
         );
         return $dockable;
-    }
-
-    private function getMiniDockContent() {
-        $tpl = new jTpl();
-        $tpl->assign("altiProvider", $this->getAltiProviderConfig('altiProfileProvider'));
-        if( $this->getAltiProviderConfig('altiProfileProvider') == 'database' ){
-            $profilUnit="";
-            $tpl->assign("profilUnit", $this->getAltiProviderConfig('profilUnit'));
-        }
-
         $mini_dockable = new lizmapMapDockItem(
             'altiProfil',
             jLocale::get('altiProfil~altiProfil.dock.title'),
             $tpl->fetch('altiProfil~altiProfil_Mini_Dock'),
-            10
-            
+            5,
         );
         return $mini_dockable;
     }
@@ -70,7 +60,7 @@ class altiProfilListener extends jEventListener{
             return Null;
         }
         if ($this->getAltiProviderConfig('altiProfileProvider') == 'database' || $this->getAltiProviderConfig('altiProfileProvider') == 'ign') {
-            $mini_dockable = $this->getMiniDockContent();
+            $mini_dockable = $this->getDockContent();
             $event->add($mini_dockable);
         } else {
             $errorConfigMsg = jLocale::get('altiProfil~altiProfil.error.configMsg');
