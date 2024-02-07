@@ -34,13 +34,6 @@ class altiProfilListener extends jEventListener{
             //'<span%20class="icon-altiProfil"></span>'
         );
         return $dockable;
-        $mini_dockable = new lizmapMapDockItem(
-            'altiProfil',
-            jLocale::get('altiProfil~altiProfil.dock.title'),
-            $tpl->fetch('altiProfil~altiProfil_Mini_Dock'),
-            5,
-        );
-        return $mini_dockable;
     }
 
     function onmapDockable ( $event ) {
@@ -60,8 +53,8 @@ class altiProfilListener extends jEventListener{
             return Null;
         }
         if ($this->getAltiProviderConfig('altiProfileProvider') == 'database' || $this->getAltiProviderConfig('altiProfileProvider') == 'ign') {
-            $mini_dockable = $this->getDockContent();
-            $event->add($mini_dockable);
+            $dockable = $this->getDockContent();
+            $event->add($dockable);
         } else {
             $errorConfigMsg = jLocale::get('altiProfil~altiProfil.error.configMsg');
             jLog::log($errorConfigMsg);
