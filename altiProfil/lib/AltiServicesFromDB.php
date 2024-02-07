@@ -62,13 +62,10 @@ Class AltiServicesFromDB {
     private function queryAlti($lon, $lat) {
 
         $sql = sprintf('
-            SELECT ST_Value(
-                %1$s.rast,
-                ST_Transform(ST_SetSRID(ST_MakePoint(%2$f,%3$f),4326),%4$s)
-            ) as z
-            FROM %1$s
+            SELECT altitude as z
+            FROM %1$s a
             WHERE ST_Intersects(
-                %1$s.rast,
+                a.geom,
                 ST_Transform(ST_SetSRID(ST_MakePoint(%2$f,%3$f),4326),%4$s)
 
         )',
@@ -111,18 +108,18 @@ Class AltiServicesFromDB {
                 linemesure AS(
                     -- Add a mesure dimension to extract steps
                     SELECT
-                        ST_AddMeasure(line.geom, 0, ST_Length(line.geom)) as linem,
+                    ST_AddMeasure(line.geom, 0, ST_Length(line.geom, false)) as linem,
                         generate_series(
                             0,
-                            ST_Length(line.geom)::int,
+                        ST_Length(line.geom, false)::int,
                             --for very long line we reduce the steps
                             CASE
-                                WHEN ST_Length(line.geom)::int < 1000 THEN %8$d
+                            WHEN ST_Length(line.geom, false)::int < 1000 THEN %8$d
                                 ELSE %8$d*5
                             END
                         ) as i,
                         CASE
-                            WHEN ST_Length(line.geom)::int < 1000 THEN %8$d
+                        WHEN ST_Length(line.geom, false)::int < 1000 THEN %8$d
                             ELSE %8$d*5
                         END as resolution
                     FROM line
@@ -132,12 +129,9 @@ Class AltiServicesFromDB {
                 ),
                 cells AS (
                     -- Get DEM elevation for each
-                    SELECT
-                        p.geom AS geom,
-                        ST_Value(%1$s.rast, 1, p.geom) AS val,
-                        resolution
-                    FROM %1$s, points2d p
-                    WHERE ST_Intersects(%1$s.rast, p.geom)
+                    SELECT p.geom AS geom, altitude AS val, resolution
+                    FROM %1$s a, points2d p
+                    WHERE ST_Intersects(a.geom, p.geom)
                 ),
                 -- Instantiate 3D points
                 points3d AS (
@@ -179,7 +173,7 @@ Class AltiServicesFromDB {
             $resolution = $row->resolution;
         }
         //slope
-        $sql = sprintf('
+     /*   $sql = sprintf('
             WITH
                 line AS(
                     -- Make the line from the input coordinates
@@ -211,12 +205,12 @@ Class AltiServicesFromDB {
             $this->Srid,
             $p2Lon, $p2Lat,
             $this->profilUnit
-        );
+        );*/
         $cnx = \jDb::getConnection('altiProfil');
         $qResult = $cnx->query($sql);
-        $slope = json_encode(
+     /*   $slope = json_encode(
                     $qResult->fetch(\PDO::FETCH_ASSOC)
-                );
+                );*/
         $data = [ [
             "x" => $x,
             "y" => $y,
@@ -224,7 +218,7 @@ Class AltiServicesFromDB {
             "srid" => $this->Srid,
             "resolution" => $resolution,
             "altisource" => $this->Altisource,
-            "slope" => $slope
+          /*  "slope" => $slope */
          ] ];
 
         return json_encode($data);
