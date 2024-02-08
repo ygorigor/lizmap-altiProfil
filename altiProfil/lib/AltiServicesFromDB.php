@@ -149,7 +149,7 @@ Class AltiServicesFromDB {
                     FROM line3D
                 )
             -- Build 3D line from 3D points
-            SELECT ST_distance(origin, geom) AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz',
+            SELECT ST_distance(origin, geom, false) AS x, ST_Z(geom) as y, ST_X(geom) as lon, ST_Y(geom) as lat, resolution FROM xz',
             $this->AltiProfileTable,
             $p1Lon, $p1Lat,
             $this->Srid,
