@@ -20,6 +20,7 @@
     overflow: hidden;
     font-size: 0.85em;
     max-width: 100%;
+    min-width: 200px;
 }
 
 #dock-content #altiProfil .menu-content #profil-chart .altiProfil-spinner{
