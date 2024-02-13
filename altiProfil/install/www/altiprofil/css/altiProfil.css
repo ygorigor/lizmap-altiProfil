@@ -75,3 +75,6 @@
 #altiProfil .menu-content {
     padding: 0.2em !important;
 }
+#dock #altiProfil-stop {
+    display: none;
+}
