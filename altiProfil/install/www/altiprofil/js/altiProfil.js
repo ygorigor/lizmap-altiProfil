@@ -44,26 +44,8 @@ function getAlti(lon,lat, numFeat){
         var alt = data.elevations[0].z;
         $('#altiProfil .menu-content #alt-p'+numFeat).html( alt ).append(' m');
     });
-    var coordsunits = '';
-    var position = '';
-    var pos = function choose_coordsunits() {
-        if ($('#content').hasClass('mobile')) {
-            coordsunits = 'dms';
-        }else{
-            coordsunits = $('lizmap-mouse-position > div.coords-unit > select').val();
-        }
-        if ((coordsunits === 'dm') || (coordsunits === 'dms')) {
-            position = OpenLayers.Util.getFormattedLonLat(lon, 'lon', coordsunits)+' / '+ OpenLayers.Util.getFormattedLonLat(lat, 'lat', coordsunits);
-        }else if (coordsunits === 'degrees') {
-                position = lon.toFixed(5)+' / '+ lat.toFixed(5);
-        }else if (coordsunits === 'm'){
-                position = Math.floor(Point.lon) +' / '+ Math.floor(Point.lat);
-        }
-    return position;
-    };
     $('#altiProfil .menu-content #altiProfil_help_p1').hide();
     $('#altiProfil .menu-content #altiProfil_help_p2').show();
-    $('#altiProfil .menu-content #alt-pos'+numFeat).html( pos );
 }
 
 function getProfilJsonResponse(params, aCallback){
@@ -148,7 +130,7 @@ function getProfil(p1,p2){
                 y: 1.16,
                 showarrow: false,
                 //text: `point 1 (${Math.round(p1.x)},${Math.round(p1.y)}) | point 2 (${Math.round(p2.x)},${Math.round(p2.y)})`
-            text: `P1 (${choose_coordsunits(p1ConvertedPoint.lat, p1ConvertedPoint.lon)}) | P2 (${choose_coordsunits(p2ConvertedPoint.lat, p2ConvertedPoint.lon)})<br>${LOCALES_ALTI_ALTITUDE} P1: ${_y[0]}m | ${LOCALES_ALTI_ALTITUDE} P2: ${_y[_y.length - 1]}m`
+            text: `P1 (${choose_coordsunits(p1Point.lat, p1Point.lon)}) | P2 (${choose_coordsunits(p2Point.lat, p2Point.lon)})<br>${LOCALES_ALTI_ALTITUDE} P1: ${_y[0]}m | ${LOCALES_ALTI_ALTITUDE} P2: ${_y[_y.length - 1]}m`
             }/*,{
                 font: {
                     size: 10
