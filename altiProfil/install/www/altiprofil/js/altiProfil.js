@@ -287,7 +287,9 @@ function initAltiProfil() {
         altiProfilLayer.setVisibility(true);
     }
 
+    // add altiprofilCtrl prop to Control with value true to distiguish it
     OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
+        'altiprofilCtrl' :true,
         defaultHandlerOptions: {
             'single': true,
             'double': false,
@@ -347,6 +349,10 @@ function initAltiProfil() {
             if (ctrl.CLASS_NAME == 'OpenLayers.Control.WMSGetFeatureInfo'){
                 ctrl.deactivate();
             }
+            // desactivate existing control which handle single click (TODO : should store previous state if multiple controls of this kind)
+            if (ctrl.CLASS_NAME == 'OpenLayers.Control' && ctrl.defaultHandlerOptions?.single == true && ctrl?.altiprofilCtrl != true) {
+                ctrl.deactivate();
+            }
         });
         $('#altiProfil-box').css({'width': ''});
         $('#altiProfil .menu-content #altiProfil_help_p1').show();
@@ -359,6 +365,10 @@ function initAltiProfil() {
         var controls = lizMap.map.controls;
         controls.forEach(function (ctrl) {
             if (ctrl.CLASS_NAME == 'OpenLayers.Control.WMSGetFeatureInfo'){
+                ctrl.activate();
+            }
+            // activate existing control which handle single click
+            if (ctrl.CLASS_NAME == 'OpenLayers.Control' && ctrl.defaultHandlerOptions?.single == true && ctrl?.altiprofilCtrl != true) {
                 ctrl.activate();
             }
         });

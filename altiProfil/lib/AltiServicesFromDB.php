@@ -104,7 +104,7 @@ Class AltiServicesFromDB {
                             ST_Transform(ST_SetSRID(ST_MakePoint(%5$f, %6$f),4326), %4$s)
                         )
                     AS geom
-                ),
+                ), 
                 linemesure AS(
                     -- Add a mesure dimension to extract steps
                     SELECT
@@ -132,7 +132,7 @@ Class AltiServicesFromDB {
                     SELECT p.geom AS geom, altitude AS val, resolution
                     FROM %1$s a, points2d p
                     WHERE ST_Intersects(a.geom, p.geom)
-                ),
+                ),           
                 -- Instantiate 3D points
                 points3d AS (
                     SELECT ST_SetSRID(
@@ -221,3 +221,4 @@ Class AltiServicesFromDB {
         return json_encode($data);
     }
 }
+
