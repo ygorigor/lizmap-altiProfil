@@ -175,6 +175,7 @@ function getProfil(p1,p2){
             showlegend: false,
             displaylogo: false,
             responsive: true,
+            locale: plotLocale,
             toImageButtonOptions: {
               format: 'jpeg', // one of png, svg, jpeg, webp
               filename: 'profil',
