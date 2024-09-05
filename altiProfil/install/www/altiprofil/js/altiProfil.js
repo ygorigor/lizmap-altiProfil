@@ -170,7 +170,7 @@ function getProfil(p1,p2){
           };
         var data = [profilLine];
 
-
+        var plotLocale = navigator.language || navigator.userLanguage;
         var config = {
             showlegend: false,
             displaylogo: false,
