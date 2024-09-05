@@ -83,6 +83,7 @@ class altiProfilListener extends jEventListener{
             $jscode = array();
             $bp = jApp::urlBasePath();
             $js [] = $bp.'altiprofil/js/altiProfil.js';
+            $locale = substr(jApp::config()->locale, 0, 2);
 
             // Add Dataviz if not already available
             if ( !$this->getDatavizStatus($event) ) {
