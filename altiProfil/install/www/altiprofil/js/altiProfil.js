@@ -100,7 +100,7 @@ function getProfil(p1,p2){
                 showaxeslabels:false
             },
             yaxis: {
-                title: LOCALES_ALTI_ELEVATION
+                title: LOCALES_ALTI_ELEVATION +' (m)'
             },
             hovermode:'closest',
             annotations: [{
@@ -126,7 +126,12 @@ function getProfil(p1,p2){
                 text: `<i>${LOCALES_ALTI_DATASOURCE} : ${_altisource}</i>`
             }],
             showlegend: false,
-            autosize: true
+            autosize: true,
+            margin: {
+                l: 60,
+                r: 20,
+                b: 60
+            }
         };
 
         //add extra info if datasource from DB
@@ -160,11 +165,24 @@ function getProfil(p1,p2){
               color: 'rgb(128, 0, 128)',
               width: 1
             }
-            ,hovertemplate: '<b>Altitude</b>: %{y}' +
+            ,hovertemplate: '<b>' + LOCALES_ALTI_ELEVATION + '</b>: %{y}m' +
             '<br /><b>lon</b> : %{customdata[0].lon:.2f} / <b>lat</b> : %{customdata[0].lat:.2f}</b>'+
             '<extra></extra>'
           };
-        var data = [profilLine];
+        var StartStopLine = {
+            x: [_x[0], _x[_x.length - 1]],
+            y: [_y[0], _y[_y.length - 1]],
+            customdata:_customdata,
+            mode: 'lines+markers',
+            line: {
+              color: 'red',
+              width: 1.5
+            },
+            hovertemplate: '<b>' + LOCALES_ALTI_ELEVATION + '</b>: %{y}m' +
+            '<br /><b>' + LOCALES_ALTI_DISTANCE + '</b>: %{x}m'+
+            '<extra></extra>'
+          };
+        data = [profilLine,StartStopLine];
 
         var plotLocale = navigator.language || navigator.userLanguage;
         var config = {
@@ -247,7 +265,7 @@ function initAltiProfil() {
         // enable popup
         lizMap.mainLizmap.popup.active = true;
         $('#altiProfil .menu-content #profil-chart-container').empty();
-        $('#altiProfil .menu-content span').html( "..." );
+        $('#altiProfil .menu-content span').html( "" );
         $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
         altiProfilSource.clear();
         altiProfilLayer.setVisible(false);
@@ -297,9 +315,10 @@ function initAltiProfil() {
                 let nbFeatures = altiProfilSource.getFeatures().length;
                 if(nbFeatures>=2){
                     altiProfilSource.clear();
+                    nbFeatures = 0;
                     $('#altiProfil .menu-content #profil-chart').hide();
                     $('#altiProfil .menu-content #profil-chart-container').empty();
-                    $('#altiProfil .menu-content span').html( "..." );
+                    $('#altiProfil .menu-content span').html( "" );
                     $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
                 }
 
