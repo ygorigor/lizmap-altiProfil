@@ -21,7 +21,14 @@
     var LOCALES_ALTI_DATASOURCE = "{@altiProfil~altiProfil.alti.datasource@}";  
   
 </script>
-<div id="altiProfil">
+<div class="altiProfil">
+  <h3>
+    <span class="title">
+      <button id= "altiProfil-stop" class="btn-altiProfil btn btn-mini btn-error btn-link" title="{@view~map.toolbar.content.stop@}">×</button>
+      <span class="icon"></span>
+      <span class="text">&nbsp;{@altiProfil~altiProfil.dock.title@}&nbsp;</span>
+    </span>
+  </h3>
   <div class="menu-content">
     {@altiProfil~altiProfil.dock.help@} 
     <p>

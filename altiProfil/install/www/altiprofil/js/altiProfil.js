@@ -40,7 +40,7 @@ function getAlti(lon,lat, numFeat){
     }
     getAltiJsonResponse(qParams, function(data){
         var alt = data['elevations'][0]['z'];
-        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt );
+        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt ).append('m');
     });
 }
 
@@ -248,9 +248,12 @@ function initAltiProfil() {
         lizMap.mainLizmap.popup.active = true;
         $('#altiProfil .menu-content #profil-chart-container').empty();
         $('#altiProfil .menu-content span').html( "..." );
+        $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
         altiProfilSource.clear();
         altiProfilLayer.setVisible(false);
     }
+
+    $('#altiProfil-stop').on('click', function(){$('#button-altiProfil').click();});
 
     lizMap.events.on({
         // Dock opened
@@ -297,6 +300,7 @@ function initAltiProfil() {
                     $('#altiProfil .menu-content #profil-chart').hide();
                     $('#altiProfil .menu-content #profil-chart-container').empty();
                     $('#altiProfil .menu-content span').html( "..." );
+                    $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
                 }
 
                 const feature = new lizMap.ol.Feature({
