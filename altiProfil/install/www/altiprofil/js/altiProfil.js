@@ -112,7 +112,7 @@ function getProfil(p1,p2){
                 yref:'paper',
                 y: 1.16,
                 showarrow: false,
-                text: `point 1 (${Math.round(p1coord[0])},${Math.round(p1coord[1])}) | point 2 (${Math.round(p2coord[0])},${Math.round(p2coord[1])})`
+                text: `P1 (${qParams.p1Lon.toFixed(5)}, ${qParams.p1Lat.toFixed(5)}) | P2 (${qParams.p2Lon.toFixed(5)}, ${qParams.p2Lat.toFixed(5)})`
             },{
                 font: {
                     size: 10
