@@ -184,7 +184,7 @@ function getProfil(p1,p2){
           };
         data = [profilLine,StartStopLine];
 
-        var plotLocale = navigator.language || navigator.userLanguage;
+        var plotLocale = lizMap.config.datavizLayers.locale;
         var config = {
             showlegend: false,
             displaylogo: false,
