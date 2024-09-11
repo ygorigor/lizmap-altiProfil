@@ -259,6 +259,7 @@ function initAltiProfil() {
         // disable popup
         lizMap.mainLizmap.popup.active = false;
         altiProfilLayer.setVisible(true);
+        lizMap.addMessage(LOCALES_ALTI_HELP, 'info', true).attr('id','altiProfil-message');
     }
 
     function onAltiDockClosed() {
@@ -269,6 +270,7 @@ function initAltiProfil() {
         $('#altiProfil .menu-content #profil-chart-container').removeClass('js-plotly-plot');
         altiProfilSource.clear();
         altiProfilLayer.setVisible(false);
+        $('#altiProfil-message').remove();
     }
 
     $('#altiProfil-stop').on('click', function(){$('#button-altiProfil').click();});

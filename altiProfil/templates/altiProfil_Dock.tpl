@@ -7,6 +7,7 @@
     var LOCALES_ALTI_ELEVATION = "{@altiProfil~altiProfil.alti.elevation@}";
     var LOCALES_ALTI_RESOLUTION = "{@altiProfil~altiProfil.alti.resolution@}";
     var LOCALES_ALTI_SLOPE = "{@altiProfil~altiProfil.alti.slope@}";
+    var LOCALES_ALTI_HELP = "{@altiProfil~altiProfil.dock.help@}";
     
     var ALTI_PROVIDER = "{$altiProvider}";
 
@@ -30,7 +31,6 @@
     </span>
   </h3>
   <div class="menu-content">
-    {@altiProfil~altiProfil.dock.help@} 
     <p>
       {@altiProfil~altiProfil.alti.point1@} : <span id="alt-p1"></span> <br/>
       {@altiProfil~altiProfil.alti.point2@} : <span id="alt-p2"></span>
