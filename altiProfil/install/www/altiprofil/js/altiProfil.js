@@ -281,7 +281,6 @@ function initAltiProfil() {
         $('#altiProfil-message').remove();
     }
 
-    $('#altiProfil-stop').on('click', function(){$('#button-altiProfil').click();});
 
     lizMap.events.on({
         // Dock opened
