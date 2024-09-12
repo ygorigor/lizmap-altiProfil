@@ -235,7 +235,7 @@ function getProfil(p1,p2){
             });
         });
         document.getElementsByClassName('xtitle')[0].y.baseVal[0].value = document.getElementsByClassName('xtitle')[0].y.baseVal[0].value - 20;
-        resizePlot()
+        resizePlot('profil-chart-container')
     });
 }
 
