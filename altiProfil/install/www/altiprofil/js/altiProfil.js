@@ -14,7 +14,7 @@ function getAltiJsonResponse(params, aCallback){
         params,
         function(data) {
             if(aCallback){
-                    aCallback(JSON.parse(data));
+                    aCallback(data);
             }
         }
         ,'json'
@@ -51,7 +51,7 @@ function getProfilJsonResponse(params, aCallback){
         params,
         function(data) {
             if(aCallback){
-                    aCallback(JSON.parse(data));
+                    aCallback(data);
             }
         }
         ,'json'
@@ -215,7 +215,7 @@ function getProfil(p1,p2){
 
         myPlot.on('plotly_click', function(data){
             p = data.points[0].customdata[0];
-            let layers = lizMap.mainLizmap.map.getLayers();
+            let layers = lizMap.mainLizmap.map.getAllLayers();
             // searching for altiProfil layer
             layers.forEach( function (layer) {
                 if (layer.get('altiprofil') == true) {
