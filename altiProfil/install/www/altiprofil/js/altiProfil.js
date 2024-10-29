@@ -266,7 +266,7 @@ function initAltiProfil() {
         // disable popup
         lizMap.mainLizmap.popup.active = false;
         altiProfilLayer.setVisible(true);
-        lizMap.addMessage(LOCALES_ALTI_HELP, 'info', true).attr('id','altiProfil-message');
+        lizMap.addMessage(LOCALES_ALTI_HELP, 'info', true, 6000).attr('id','altiProfil-message');
     }
 
     function onAltiDockClosed() {
