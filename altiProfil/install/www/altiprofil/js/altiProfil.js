@@ -66,6 +66,25 @@ function resizePlot(id){
     });
     Plotly.Plots.resize($('#'+id)[0]);
 }
+function toDegreesMinutesAndSeconds(coordinate) {
+    var absolute = Math.abs(coordinate);
+    var degrees = Math.floor(absolute);
+    var minutesNotTruncated = (absolute - degrees) * 60;
+    var minutes = Math.floor(minutesNotTruncated);
+    var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+    return degrees + '° ' + minutes + "' " + seconds + '"';
+}
+
+function convertDMS(lat, lng) {
+    var latitude = toDegreesMinutesAndSeconds(lat);
+    var latitudeCardinal = lat >= 0 ? "N" : "S";
+
+    var longitude = toDegreesMinutesAndSeconds(lng);
+    var longitudeCardinal = lng >= 0 ? "E" : "W";
+
+    return longitude + longitudeCardinal + ' / ' + latitude + latitudeCardinal;
+}
 
 function getProfil(p1,p2){
     let p1clone = p1.clone();
@@ -120,7 +139,7 @@ function getProfil(p1,p2){
                 yref:'paper',
                 y: 1.16,
                 showarrow: false,
-                text: `P1 (${qParams.p1Lon.toFixed(5)}, ${qParams.p1Lat.toFixed(5)}) | P2 (${qParams.p2Lon.toFixed(5)}, ${qParams.p2Lat.toFixed(5)})`
+                text: `P1 (${convertDMS(qParams.p1Lat.toFixed(5), qParams.p1Lon.toFixed(5))}) | P2 (${convertDMS(qParams.p2Lat.toFixed(5), qParams.p2Lon.toFixed(5))})`
             },{
                 font: {
                     size: 10
