@@ -39,8 +39,8 @@ function getAlti(lon,lat, numFeat){
         'project': lizUrls.params.project
     }
     getAltiJsonResponse(qParams, function(data){
-        var alt = data['elevations'][0]['z'];
-        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt ).append('m');
+        var alt = Number(data['elevations'][0]['z']).toFixed(2);
+        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt + " m" );
     });
 }
 
