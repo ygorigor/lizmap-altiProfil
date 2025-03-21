@@ -465,7 +465,7 @@ function initAltiProfil() {
             lizMap.mainLizmap.popup.active = false;
         }
         altiProfilLayer.setVisible(true);
-        lizMap.addMessage(LOCALES_ALTI_HELP, 'info', true, 6000).attr('id','altiProfil-message');
+        lizMap.addMessage(LOCALES_ALTI_HELP, 'info', true, 3000).attr('id','altiProfil-message');
     }
 
     // Dock closed: re-enable the popup, clear the chart and the layer.
