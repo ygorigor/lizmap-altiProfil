@@ -36,7 +36,7 @@
       {@altiProfil~altiProfil.alti.point2@} : <span id="alt-p2"></span>
     </p>
     <div id="profil-chart">
-      <div class="spinner"></div>
+      <div class="progress progress-bar progress-bar-striped progress-bar-animated"></div>
       <div id="profil-chart-container"></div>
     </div>  
   </div>

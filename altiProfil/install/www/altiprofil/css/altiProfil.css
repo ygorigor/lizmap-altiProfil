@@ -23,35 +23,11 @@
 #altiProfil #profil-chart-container {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
 }
-#altiProfil .menu-content #profil-chart .spinner{
-    display: inline-block;
-    width: 80px;
-    height: 80px;
-}
-#altiProfil .menu-content #profil-chart .spinner{
-    content: " ";
-    display: block;
-    width: 34px;
-    height: 34px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #fff;
-    border-color: #474747 transparent #474747 transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
-}
 #mini-dock .altiProfil .menu-content {
     max-height: max-content;
 }
 #dock #altiProfil-stop {
     display: none;
-}
-  @keyframes lds-dual-ring {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
 }
 
 
