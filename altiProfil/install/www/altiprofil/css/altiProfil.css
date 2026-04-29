@@ -20,11 +20,20 @@
     height: 100%;
     z-index: 100000;
 }
+#right-dock #altiProfil {
+  margin-left: 5px;
+  width: auto;
+}
 #mini-dock .altiProfil .menu-content {
     max-height: max-content;
 }
+#right-dock #altiProfil-stop,
 #dock #altiProfil-stop {
     display: none;
+}
+#right-dock #altiProfil {
+  margin-left: 5px;
+  width: auto;
 }
 
 
