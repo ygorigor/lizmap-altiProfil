@@ -8,9 +8,57 @@ with some extra keywords : backend, tests, test, translation, funders, important
 
 ## Unreleased
 
+### Fixed
+
+## 0.5.10 - 2025-06-18
+
 ### Added
 
+* Add Portuguese language, contribution from @josemvm
+
+### Fixed
+
+* Fix some PHP warnings
+* Fix project config overwrite, only for SQL table and schema and PHP fix
+* Fix unlocalized string
+
+## 0.5.9 - 2025-01-27
+
+### Fixed
+
+* new data-ploty js filenames for LWC>3.8.4
+* bug when using IGN as provider
+* use proper Lizmap Proxy class
+
+## 0.5.8 - 2025-01-08
+
+### Fixed
+
+* Limit amount of decimals in altitude display to 2
+* Better display of coordinates, with units
+
+## 0.5.7 - 2024-12-16
+
+### Fixed
+
+* Fix fatal error when DB connection fails on admin
+
+### Added
+
+* Add German language, contribution from @meyerlor
+
+## 0.5.6 - 2024-11-20
+
 ### Changed
+
+* Allow define raster table schema name
+
+## 0.5.5 - 2024-10-24
+
+### Fixed
+
+* Update translations
+* Fix JSON encode
 
 ## 0.5.4 - 2024-10-24
 

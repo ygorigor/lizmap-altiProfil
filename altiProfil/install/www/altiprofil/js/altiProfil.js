@@ -1,12 +1,26 @@
 lizMap.events.on({
-    'uicreated': function(e) {
-        $('#profil-stop').click(function(){
-            $('#button-altiProfil').click();
-        });
-        $('#altiProfil .menu-content #profil-chart').hide();
+    'uicreated': function() {
+        const profilStop = document.getElementById('profil-stop');
+        if (profilStop) {
+            profilStop.addEventListener('click', function () {
+                const btn = document.getElementById('button-altiProfil');
+                if (btn) { btn.click(); }
+            });
+        }
+        hideElement('#altiProfil .menu-content #profil-chart');
         initAltiProfil();
     }
 });
+
+function showElement(selector) {
+    const el = document.querySelector(selector);
+    if (el) { el.style.display = ''; }
+}
+
+function hideElement(selector) {
+    const el = document.querySelector(selector);
+    if (el) { el.style.display = 'none'; }
+}
 
 function getAltiJsonResponse(params, aCallback){
     $.get(
@@ -21,7 +35,7 @@ function getAltiJsonResponse(params, aCallback){
     );
 }
 
-function getAlti(lon,lat, numFeat){
+function getAlti(lon, lat, numFeat){
     //IGN Web Service only allows coordinates in 4326
     if(lizMap.map.projection.projCode != "EPSG:4326"){
         var fromProjection = new OpenLayers.Projection(lizMap.map.projection.projCode);
@@ -39,23 +53,25 @@ function getAlti(lon,lat, numFeat){
         'project': lizUrls.params.project
     }
     getAltiJsonResponse(qParams, function(data){
-        var alt = data['elevations'][0]['z'];
-        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt );
+        if (!data || data['error msg'] || !data['elevations'] || !data['elevations'][0]) {
+            $('#altiProfil .menu-content #alt-p'+numFeat).html('-');
+            return;
+        }
+        var alt = Number(data['elevations'][0]['z']).toFixed(2);
+        $('#altiProfil .menu-content #alt-p'+numFeat).html( alt + " m" );
     });
 }
 
 function getProfilJsonResponse(params, aCallback){
-    $('#altiProfil .menu-content #profil-chart .spinner').show();
-    $.get(
-        URLAJAXALTIPROFIL,
-        params,
-        function(data) {
-            if(aCallback){
-                    aCallback(data);
-            }
-        }
-        ,'json'
-    );
+    var $spinner = $('#altiProfil .menu-content #profil-chart .spinner');
+    $spinner.show();
+    $.get(URLAJAXALTIPROFIL, params, function(data){
+        if(aCallback){ aCallback(data); }
+    }, 'json')
+    .fail(function(){
+        $spinner.hide();
+        $('#altiProfil .menu-content span').html(LOCALES_ALTI_ERROR_REQUEST);
+    });
 }
 
 function resizePlot(id){
@@ -65,6 +81,12 @@ function resizePlot(id){
         margin: '0px'
     });
     Plotly.Plots.resize($('#'+id)[0]);
+}
+
+function escapeHtml(s){
+    return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 function getProfil(p1,p2){
@@ -95,20 +117,56 @@ function getProfil(p1,p2){
     }
 
     getProfilJsonResponse(qParams, function(data){
+        if (!data || data['error msg'] || !Array.isArray(data) || !data[0]) {
+            $('#altiProfil .menu-content #profil-chart .spinner').hide();
+            $('#altiProfil .menu-content span').html(LOCALES_ALTI_ERROR_PROFIL);
+            return;
+        }
         var _x = data[0]['x'];
         var _y = data[0]['y'];
         var _customdata = data[0]['customdata'];
         var _srs = data[0]['srid'];
         var _altisource = data[0]['altisource'];
 
+        // Cumulative elevation gain (D+) and loss (D-) between consecutive
+        // valid samples. A null gap breaks the chain: no delta is computed
+        // across missing data. Totals depend on the sampling resolution
+        // (finer steps catch more micro-relief and increase both values).
+        let dPlus = 0, dMinus = 0, prevY = null;
+        let iMin = -1, iMax = -1, vMin = Infinity, vMax = -Infinity;
+        for (let k = 0; k < _y.length; k++) {
+            // Plotly's hovertemplate warns on null: show a dash instead
+            if (_customdata[k] && _customdata[k][0] && _customdata[k][0].slope == null) {
+                _customdata[k][0].slope = '-';
+            }
+            if (_y[k] === null) { prevY = null; continue; }
+            const v = Number(_y[k]);
+            if (isNaN(v)) { prevY = null; continue; }
+            if (prevY !== null) {
+                const d = v - prevY;
+                if (d > 0) { dPlus += d; } else { dMinus -= d; }
+            }
+            prevY = v;
+            if (v > vMax) { vMax = v; iMax = k; }
+            if (v < vMin) { vMin = v; iMin = k; }
+        }
+
+        const denivText = `${LOCALES_ALTI_DPLUS} : ${Math.round(dPlus)} m | ${LOCALES_ALTI_DMINUS} : ${Math.round(dMinus)} m`;
+
         var layout = {
+            font: { size: 10 },
             title: '<b>'+LOCALES_ALTI_PROFIL+'</b>',
             xaxis: {
-                title: LOCALES_ALTI_DISTANCE +' (m)',
-                showaxeslabels:false
+                title: {
+                    text: LOCALES_ALTI_DISTANCE +' (m)',
+                    font: { size: 12 }
+                }
             },
             yaxis: {
-                title: LOCALES_ALTI_ELEVATION
+                title: {
+                    text: LOCALES_ALTI_ELEVATION,
+                    font: { size: 12 }
+                }
             },
             hovermode:'closest',
             annotations: [{
@@ -120,7 +178,19 @@ function getProfil(p1,p2){
                 yref:'paper',
                 y: 1.16,
                 showarrow: false,
-                text: `point 1 (${Math.round(p1coord[0])},${Math.round(p1coord[1])}) | point 2 (${Math.round(p2coord[0])},${Math.round(p2coord[1])})`
+                text: `point 1 (${Math.round(p1coord[0])}, ${Math.round(p1coord[1])}) | point 2 (${Math.round(p2coord[0])}, ${Math.round(p2coord[1])})`
+            },{
+                font: {
+                    size: 10
+                },
+                align:'right',
+                xref:'paper',
+                yref:'paper',
+                x: 1.02,
+                y: -0.21,
+                xanchor: 'right',
+                showarrow: false,
+                text: denivText
             },{
                 font: {
                     size: 10
@@ -131,7 +201,7 @@ function getProfil(p1,p2){
                 x: -0.02,
                 y: -0.21,
                 showarrow: false,
-                text: `<i>${LOCALES_ALTI_DATASOURCE} : ${_altisource}</i>`
+                text: `<i>${LOCALES_ALTI_DATASOURCE} : ${escapeHtml(_altisource)}</i>`
             }],
             showlegend: false,
             autosize: true
@@ -142,7 +212,7 @@ function getProfil(p1,p2){
             var _resolution = data[0]['resolution'];
             var _slope = data[0]['slope'];
 
-            layout['title'] = '<b>Profil ('+ LOCALES_ALTI_RESOLUTION +' ' +_resolution+ 'm)';
+            layout['title'] = '<b>'+LOCALES_ALTI_PROFIL+' ('+ LOCALES_ALTI_RESOLUTION +' ' +_resolution+ 'm)';
             layout['annotations'].push(
                 {
                     font: {
@@ -158,20 +228,49 @@ function getProfil(p1,p2){
             )
         }
 
-        var profilLine = {
-            x: _x,
-            y: _y,
-            customdata:_customdata,
-            mode: 'lines',
-            line: {
-              color: 'rgb(128, 0, 128)',
-              width: 1
+        if (iMax !== -1) {
+            layout.annotations.push(
+                { x: _x[iMax], y: _y[iMax], text: '▲ ' + Number(_y[iMax]).toFixed(0) + ' m',
+                    showarrow: true, arrowhead: 6, ax: 0, ay: -30,
+                    font: { color: '#d62728', size: 11 } 
+                }
+            );            
+        }
+        if (iMin !== iMax) {
+            layout.annotations.push(
+                { x: _x[iMin], y: _y[iMin], text: '▼ ' + Number(_y[iMin]).toFixed(0) + ' m',
+                    showarrow: true, arrowhead: 6, ax: 0, ay: 30,
+                    font: { color: '#1f77b4', size: 11 } 
+                }
+            );
+        }
+
+        const slopeHover = (ALTI_PROVIDER == "database") ? ` <b>Pente</b> : %{customdata[0].slope}${LOCALES_ALTI_UNIT_ABRV}`: '';
+         
+        var profilLine = [{
+                // Invisible baseline at the lowest elevation: with a single trace,
+                // 'tonexty' falls back to 'tozeroy' and forces the y axis to
+                // include 0, flattening high-altitude profiles.
+                x: [_x[0], _x[_x.length - 1]],
+                y: [vMin, vMin],
+                mode: 'lines',
+                line: { width: 0 },
+                hoverinfo: 'skip',
+                showlegend: false
+            },{
+                x: _x,
+                y: _y,
+                customdata:_customdata,
+                fill: 'tonexty',
+                fillcolor: 'rgba(230, 204, 176, 0.7)',
+                mode: 'lines',
+                line: {
+                color: 'rgb(117, 66, 0)',
+                width: 1
+                }
+                ,hovertemplate: `<b>Altitude</b>: %{y}${slopeHover}<br /><b>lon</b> : %{customdata[0].lon:.2f} / <b>lat</b> : %{customdata[0].lat:.2f}<extra></extra>`
             }
-            ,hovertemplate: '<b>Altitude</b>: %{y}' +
-            '<br /><b>lon</b> : %{customdata[0].lon:.2f} / <b>lat</b> : %{customdata[0].lat:.2f}</b>'+
-            '<extra></extra>'
-          };
-        var data = [profilLine];
+        ];
 
         var plotLocale = lizMap.config.datavizLayers.locale.substr(0,2).toLowerCase();
         var config = {
@@ -190,12 +289,13 @@ function getProfil(p1,p2){
                 'resetScale2d', 'hoverClosestGl2d', 'hoverClosestPie', 'toggleHover', 'resetViews',
                 'sendDataToCloud', 'toggleSpikelines', 'resetViewMapbox', 'hoverClosestCartesian', 'hoverCompareCartesian']
           };
-        Plotly.newPlot('profil-chart-container', data, layout, config);
+        Plotly.newPlot('profil-chart-container', profilLine, layout, config);
         $('#altiProfil .menu-content #profil-chart .spinner').hide();
         var myPlot = document.getElementById('profil-chart-container');
 
-        myPlot.on('plotly_click', function(data){
-            p = data.points[0].customdata[0];
+        //Add a geo point on the map when hovering the chart
+        myPlot.on('plotly_hover', function(plotData){
+            const p = plotData.points[0].customdata[0];
             let layers = lizMap.mainLizmap.map.getAllLayers();
             // searching for altiProfil layer
             layers.forEach( function (layer) {
@@ -215,6 +315,21 @@ function getProfil(p1,p2){
                 }
             });
         });
+
+        //Remove the point on the map when unhovering the chart
+        myPlot.on('plotly_unhover', function(){
+            let layers = lizMap.mainLizmap.map.getAllLayers();
+            layers.forEach( function (layer) {
+                if (layer.get('altiprofil') == true) {
+                    let features = layer.getSource().getFeatures();
+                    if(features.length > 3){
+                        layer.getSource().removeFeature(features[features.length-1]);
+                    }
+                    
+                }
+            });
+        });
+
         document.getElementsByClassName('xtitle')[0].y.baseVal[0].value = document.getElementsByClassName('xtitle')[0].y.baseVal[0].value - 20;
         resizePlot('profil-chart-container')
     });
@@ -246,13 +361,19 @@ function initAltiProfil() {
 
     function onAltiDockOpened() {
         // disable popup
-        lizMap.mainLizmap.popup.active = false;
+        if (lizMap?.mainLizmap?.popup) {
+            lizMap.mainLizmap.popup.active = false;
+        }
+
         altiProfilLayer.setVisible(true);
     }
 
     function onAltiDockClosed() {
         // enable popup
-        lizMap.mainLizmap.popup.active = true;
+        if (lizMap?.mainLizmap?.popup) {
+              lizMap.mainLizmap.popup.active = true;
+        }
+
         $('#altiProfil .menu-content #profil-chart-container').empty();
         $('#altiProfil .menu-content span').html( "..." );
         altiProfilSource.clear();
@@ -334,6 +455,4 @@ function initAltiProfil() {
             }
         }
         );
-
-
 }

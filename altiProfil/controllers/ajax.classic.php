@@ -8,8 +8,7 @@ class ajaxCtrl extends jController
     private function errorMsg($errorMsg){
         $rep = $this->getResponse('json');
         jLog::log("AltiProfil :: $errorMsg");
-        $errorMsg = '{"error msg": "'.$errorMsg.'" }';
-        $rep->data = $errorMsg;
+        $rep->data = array('error msg' => $errorMsg);
         return $rep;
     }
 
@@ -29,10 +28,35 @@ class ajaxCtrl extends jController
     }
 
     /**
+     * Check if a user has the right to access
+     * the requested repository/project
+     */
+    private function checkProjectAccess($repository, $project){
+        try {
+            $lizmapProject = \lizmap::getProject($repository.'~'.$project);
+        } catch (\Lizmap\Project\UnknownLizmapProjectException $e) {
+            return false;
+        }
+        if (!$lizmapProject) {
+            return false;
+        }
+        return $lizmapProject->checkAcl();
+    }
+
+    /**
      * Get alti from one point based on IGN or database
     **/
     public function getAlti(){
+        $repository = $this->param('repository');
+        $project = $this->param('project');
         $rep = $this->getResponse('json');
+
+        //check first for access to the project, if not return 403
+        if (!$this->checkProjectAccess($repository, $project)) {
+            $rep = $this->errorMsg("Access denied to this repository/project");
+            $rep->setHttpStatus(403, \Lizmap\Request\Proxy::getHttpStatusMsg(403));
+            return $rep;
+        }  
 
         $altiConfig = new \AltiProfil\AltiConfig();
         $altiProvider = $altiConfig->getProvider();
@@ -44,8 +68,6 @@ class ajaxCtrl extends jController
                 $rep->data = $altiProviderInstance->getAlti($lon, $lat);
                 return $rep;
             }elseif ( $altiProvider == 'database' ) {
-                $repository = $this->param('repository');
-                $project = $this->param('project');
                 $altiProviderInstance = new \AltiProfil\AltiServicesFromDB($altiConfig, $repository, $project);
                 $rep->data = $altiProviderInstance->getAlti($lon, $lat);
                 return $rep;
@@ -56,10 +78,27 @@ class ajaxCtrl extends jController
     }
 
     /**
+     * Check input parameters for profil
+    **/
+    protected function checkProfilParams($sampling, $distance){
+        return is_numeric($sampling) && $sampling > 0
+            && is_numeric($distance) && $distance >= 0;
+    }
+
+    /**
      * Get alti from one point based on IGN or database
     **/
     public function getProfil(){
+        $repository = $this->param('repository');
+        $project = $this->param('project');
         $rep = $this->getResponse('json');
+
+        //check first for access to the project, if not return 403
+        if (!$this->checkProjectAccess($repository, $project)) {
+            $rep = $this->errorMsg("Access denied to this repository/project");
+            $rep->setHttpStatus(403, \Lizmap\Request\Proxy::getHttpStatusMsg(403));
+            return $rep;
+        }
 
         $altiConfig = new \AltiProfil\AltiConfig();
         $altiProvider = $altiConfig->getProvider();
@@ -73,12 +112,14 @@ class ajaxCtrl extends jController
 
         if ( ($this->checkParams($p1Lon, $p1Lat)) and ($this->checkParams($p2Lon, $p2Lat)) ){
             if($altiProvider == 'ign' ){
+                if (!$this->checkProfilParams($sampling, $distance)) {
+                    return $this->errorMsg("Wrong sampling/distance values");
+                }
                 $altiProviderInstance = new \AltiProfil\AltiServicesFromIGN($altiConfig);
                 $rep->data = $altiProviderInstance->getProfil($p1Lon, $p1Lat, $p2Lon, $p2Lat, $sampling, $distance);
                 return $rep;
             }elseif ( $altiProvider == 'database' ) {
-                $repository = $this->param('repository');
-                $project = $this->param('project');
+                
                 $altiProviderInstance = new \AltiProfil\AltiServicesFromDB($altiConfig, $repository, $project);
                 $rep->data = $altiProviderInstance->getProfil($p1Lon, $p1Lat, $p2Lon, $p2Lat);
                 return $rep;
