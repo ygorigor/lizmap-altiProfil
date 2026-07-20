@@ -306,7 +306,7 @@ function getProfil(p1,p2){
                 );
             }
 
-            const slopeHover = (ALTI_PROVIDER == "database") ? ` <b>Pente</b> : %{customdata[0].slope}${LOCALES_ALTI_UNIT_ABRV}`: '';
+            const slopeHover = (ALTI_PROVIDER == "database") ? ` <b>${LOCALES_ALTI_SLOPE}</b> : %{customdata[0].slope}${LOCALES_ALTI_UNIT_ABRV}`: '';
             
             const profilLine = [{
                     // Invisible baseline at the lowest elevation: with a single trace,
@@ -329,7 +329,7 @@ function getProfil(p1,p2){
                     color: 'rgb(117, 66, 0)',
                     width: 1
                     }
-                    ,hovertemplate: `<b>Altitude</b>: %{y}${slopeHover}<br /><b>lon</b> : %{customdata[0].lon:.2f} / <b>lat</b> : %{customdata[0].lat:.2f}<extra></extra>`
+                    ,hovertemplate: `<b>${LOCALES_ALTI_ELEVATION}</b>: %{y}${slopeHover}<br /><b>lon</b> : %{customdata[0].lon:.2f} / <b>lat</b> : %{customdata[0].lat:.2f}<extra></extra>`
                 }
             ];
 
