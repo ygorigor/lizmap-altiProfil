@@ -446,6 +446,7 @@ function initAltiProfil() {
             lizMap.mainLizmap.popup.active = false;
         }
         altiProfilLayer.setVisible(true);
+        lizMap.addMessage(LOCALES_ALTI_HELP, 'info', true).attr('id','altiProfil-message');
     }
 
     // Dock closed: re-enable the popup, clear the chart and the layer.
@@ -459,6 +460,7 @@ function initAltiProfil() {
         setTextSpans('...');
         altiProfilSource.clear();
         altiProfilLayer.setVisible(false);
+        document.getElementById('altiProfil-message').remove();
     }
 
     lizMap.events.on({

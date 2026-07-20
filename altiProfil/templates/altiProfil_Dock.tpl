@@ -25,6 +25,7 @@
     {/if}   
     var LOCALES_ALTI_MEAN = "{@altiProfil~altiProfil.alti.mean@}";  
     var LOCALES_ALTI_DATASOURCE = "{@altiProfil~altiProfil.alti.datasource@}";
+    var LOCALES_ALTI_HELP = "{@altiProfil~altiProfil.dock.help@}";
 </script>
 
 
@@ -40,7 +41,6 @@
     {/if}
 
     <div class="menu-content">      
-      {@altiProfil~altiProfil.dock.help@}            
       <p id="altiProfil-coords">
         {@altiProfil~altiProfil.alti.point1@} : <span id="alt-p1"></span> <br/>
         {@altiProfil~altiProfil.alti.point2@} : <span id="alt-p2"></span>
