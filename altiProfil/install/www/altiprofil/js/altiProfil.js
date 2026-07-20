@@ -127,7 +127,7 @@ function setPanelStep(step) {
         setText('#altiProfil-distance', '');
     } else {
         showElement('#altiProfil-chart');
-        showElement('#altiProfil-chart .spinner');
+        showElement('#altiProfil-chart .progress');
         hideElement('#altiProfil-result');
     }
 }
@@ -270,7 +270,7 @@ function getProfil(p1, p2, distance){
         URLAJAXALTIPROFIL,
         qParams,
         function(data){ //ON SUCCESS
-            hideElement('#altiProfil-chart .spinner');
+            hideElement('#altiProfil-chart .progress');
             if (!data || data['error msg'] || !Array.isArray(data) || !data[0]) {
                 setAltiError(LOCALES_ALTI_ERROR_REQUEST);
                 return;
@@ -473,7 +473,7 @@ function getProfil(p1, p2, distance){
         },
         function(){ //ON ERROR
             // Network error (403 / 5xx)
-            hideElement('#altiProfil-chart .spinner');
+            hideElement('#altiProfil-chart .progress');
             setAltiError(LOCALES_ALTI_ERROR_REQUEST);
         }
     );
