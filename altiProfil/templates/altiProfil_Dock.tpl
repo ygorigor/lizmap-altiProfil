@@ -61,7 +61,7 @@
       </div>
 
       <div id="altiProfil-chart" style="display:none">
-        <div class="spinner"></div>
+        <div class="progress progress-bar progress-bar-striped progress-bar-animated"></div>
         <div id="altiProfil-chart-container"></div>
         <div id="altiProfil-result">
           <dl id="altiProfil-stats" class="ap-stats"></dl>
