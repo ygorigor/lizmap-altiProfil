@@ -484,7 +484,7 @@ function initAltiProfil() {
         setTextSpans('...');
         altiProfilSource.clear();
         altiProfilLayer.setVisible(false);
-        document.getElementById('altiProfil-message').remove();
+        document.getElementById('altiProfil-message')?.remove();
     }
 
     lizMap.events.on({
