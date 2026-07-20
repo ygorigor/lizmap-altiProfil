@@ -46,7 +46,7 @@
         {@altiProfil~altiProfil.alti.point2@} : <span id="alt-p2"></span>
       </p>
       <div id="altiProfil-chart">
-        <div class="spinner"></div>
+        <div class="progress progress-bar progress-bar-striped progress-bar-animated"></div>
         <div id="altiProfil-chart-container"></div>
       </div>
       <p><span id="altiProfil-error" style="color: red;"></span></p> 

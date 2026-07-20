@@ -73,7 +73,7 @@ function setAltiError(text) {
     const el = document.querySelector('#altiProfil .menu-content span#altiProfil-error');
     if (!el) { return; }
     el.textContent = text;
-    hideElement('#altiProfil .menu-content #altiProfil-chart .spinner');
+    hideElement('#altiProfil .menu-content #altiProfil-chart .progress');
     hideElement('#altiProfil .menu-content #altiProfil-chart');
 }
 
@@ -165,7 +165,7 @@ function escapeHtml(s){
  */
 function getProfil(p1,p2){
     showElement('#altiProfil .menu-content #altiProfil-chart');
-    showElement('#altiProfil .menu-content #altiProfil-chart .spinner');
+    showElement('#altiProfil .menu-content #altiProfil-chart .progress');
 
     const p1clone = projTransform(p1, lizMap.map.projection.projCode, 'EPSG:4326');
     const p2clone = projTransform(p2, lizMap.map.projection.projCode, 'EPSG:4326');
@@ -379,7 +379,7 @@ function getProfil(p1,p2){
                 resizePlot('altiProfil-chart-container');
             });
 
-            hideElement('#altiProfil .menu-content #altiProfil-chart .spinner');
+            hideElement('#altiProfil .menu-content #altiProfil-chart .progress');
             const myPlot = document.getElementById('altiProfil-chart-container');
 
             //Add a geo point on the map when hovering the chart
