@@ -285,7 +285,12 @@ function getProfil(p1,p2){
                     text: `<i>${LOCALES_ALTI_DATASOURCE} : ${escapeHtml(_altisource)}</i>`
                 }],
                 showlegend: false,
-                autosize: true
+                autosize: true,
+                margin: {
+                    l: 60,
+                    r: 20,
+                    b: 60
+                }
             };
 
             //add extra info if datasource from DB
