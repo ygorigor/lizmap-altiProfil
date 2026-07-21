@@ -49,6 +49,6 @@
         <div class="progress progress-bar progress-bar-striped progress-bar-animated"></div>
         <div id="altiProfil-chart-container"></div>
       </div>
-      <p><span id="altiProfil-error" style="color: red;"></span></p> 
+      <p class="mb-0"><span id="altiProfil-error" style="color: red;"></span></p> 
     </div>
 </div>
