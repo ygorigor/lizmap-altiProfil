@@ -33,7 +33,7 @@
     {if $dock == 'minidock'}
       <h3>
         <span class="title">
-          <button id="profil-stop" class="btn btn-mini btn-error btn-link" title="{@view~map.toolbar.content.stop@}">×</button>
+          <button id="profil-stop" class="btn-close" title="{@view~map.toolbar.content.stop@}"></button>
           <span class="icon"></span>
           <span class="text">&nbsp;{@altiProfil~altiProfil.dock.title@}&nbsp;</span>
         </span>
